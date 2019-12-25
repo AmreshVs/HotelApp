@@ -13,7 +13,7 @@ const TopNavSimple = (props) => {
     };
 
     const BackAction = () => (
-        <Ripple onPress={navigateBack}>
+        <Ripple onPress={props.backHandler !== undefined ? props.backHandler : navigateBack}>
             <TopNavigationAction icon={BackIcon} />
         </Ripple>
     );

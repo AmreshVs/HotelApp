@@ -1,56 +1,58 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Text, Card, Icon } from '@ui-kitten/components';
+import { Text, Card, Icon, Layout, Button, Input } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import { withNavigation } from 'react-navigation';
 import { addGuests } from '../../redux/actions/hotelDetailActions';
-import moment from 'moment';
 
 const GuestDetails = (props) => {
 
-    if(props.hotelDetail.rooms !== undefined){
-        var rooms = props.hotelDetail.rooms;
-        var length = Object.keys(rooms).length;
-        var roomNum = 0;
-        var guests = 0;
-        for(var i=1;i<length; i++){
-            roomNum++;
-            if(rooms[i] !== undefined){
-                guests += rooms[i].adult + rooms[i].children;
-            }
-        }
-        var proprooms = Object.keys(rooms).length > 0 ? (rooms) : ({room: 1 , guests: {adult: 1, children: 0}});
-    }
+    const [visible, setVisible] = React.useState(false);
+    const [name, setName] = React.useState('');
+    const [phone, setPhone] = React.useState('');
 
+    const toggleModal = () => {
+        setVisible(!visible);
+    };
 
-    const hotelDates = () => {
-        props.addGuests(proprooms);
-        props.navigation.navigate('HotelDates');
-    }
-
-    if(props.hotelDetail.dates !== undefined){
-        var fromDate = moment(props.hotelDetail.dates.startDate).format('MMM Do');
-        var toDate = moment(props.hotelDetail.dates.endDate).format('MMM Do');
-    }
-
-    const dates = (fromDate !== undefined && toDate !== undefined) ? fromDate + ' - ' + toDate : '-';
-
-    return(
-        <Card style={styles.cardContainer}>
-            <Text style={styles.heading}>Choose Room's and Guest's</Text>
-            <Ripple rippleSize={150} rippleDuration={600} style={styles.choosedates} onPress={hotelDates}>
-                <View style={styles.container}>
-                    <Icon name='calendar-outline' width={22} height={22} fill='#3366FF' />
-                    <Text style={styles.text}>{dates}</Text>
+    return (
+        <View style={{ width: '100%', marginLeft: 20 }}>
+            <Card style={styles.cardContainer}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.heading}>Guest Details</Text>
+                    <Ripple onPress={toggleModal}>
+                        {visible == false ?
+                            <Icon name='edit-outline' fill='#AAA' width={20} height={20} />
+                            :
+                            <Icon name='checkmark-outline' fill='#AAA' width={20} height={20} />
+                        }
+                    </Ripple>
                 </View>
-                <View style={styles.container}>
-                    <Icon name='people-outline' width={22} height={22} fill='#3366FF' />
-                    <Text style={styles.text}>{roomNum} Room's, {guests} Guest's</Text>
-                </View>
-            </Ripple>
-        </Card>
+                {visible == false ?
+                    <View style={styles.textContainer}>
+                        <Text style={styles.guestName}>{name == '' ? 'Amresh Vs' : name}</Text>
+                        <Text>91+ {phone == '' ? '8675529268' : phone}</Text>
+                    </View>
+                    :
+                    <View>
+                        <Input
+                            placeholder='Guest name'
+                            value={name}
+                            onChangeText={setName}
+                            style={styles.input}
+                        />
+                        <Input
+                            placeholder='Mobile Number'
+                            value={phone}
+                            onChangeText={setPhone}
+                            style={styles.input}
+                        />
+                    </View>
+                }
+            </Card>
+        </View>
     );
 }
 
@@ -65,32 +67,36 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(GuestDetails));
 
 const styles = StyleSheet.create({
-    cardContainer:{
+    cardContainer: {
         width: '95%',
         borderRadius: 10,
         marginTop: 10,
     },
-    heading:{
+    heading: {
         fontSize: 16,
         marginBottom: 3,
         color: '#626262',
         fontWeight: '700',
     },
-    choosedates:{
-        marginTop: 10,
-        borderWidth: 1,
-        borderRadius: 7,
-        borderColor: '#DDD',
-        padding: 15,
-        flexDirection: 'row'
-    },
-    container:{
-        width: '50%',
+    textContainer: {
+        paddingTop: 8,
         flexDirection: 'row',
-        alignItems: 'center'
+        justifyContent: 'space-between'
     },
-    text:{
-        paddingLeft: 5,
-        fontSize: 14,
+    guestName: {
+        color: '#3c3c3c',
+        fontWeight: '700'
+    },
+    popoverContent: {
+        justifyContent: 'center',
+        alignItems: 'center',
+
+        padding: 24,
+    },
+    backdrop: {
+        backgroundColor: '#EEE',
+    },
+    input:{
+        marginTop: 5
     }
 })

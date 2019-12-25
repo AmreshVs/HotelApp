@@ -8,6 +8,11 @@ import HotelDescription from '../../components/hotelsDetail/hotelDescription';
 import RoomsCategory from '../../components/hotelsDetail/roomsCategory';
 import Amenities from '../../components/hotelsDetail/amenities';
 import ChooseDates from '../../components/hotelsDetail/chooseDates';
+import GuestDetails from '../../components/hotelsDetail/guestDetails';
+import ReviewsRatings from '../../components/hotelsDetail/reviewsRatings';
+import RulesPolicies from '../../components/hotelsDetail/rulesPolicies';
+import PricingDetails from '../../components/hotelsDetail/pricingDetails';
+import BookHotel from '../../components/hotelsDetail/bookHotel';
 
 const HotelsDetail = (props) => {
     
@@ -23,8 +28,13 @@ const HotelsDetail = (props) => {
                     <Amenities/>
                     <RoomsCategory/>
                     <ChooseDates/>
+                    <GuestDetails/>
+                    <ReviewsRatings/>
+                    <RulesPolicies/>
+                    <PricingDetails/>
+                    <BookHotel/>
                 </View>
-                <View style={{ marginBottom: 80 }} />
+                <View style={{ marginBottom: 10 }} />
             </ScrollView>
         </SafeAreaView>
     );
