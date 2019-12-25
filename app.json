@@ -3,12 +3,15 @@
     "name": "JR Jungle Resort",
     "slug": "HotelApp",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
+    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
+    "android": {
+      "package": "com.amreshvs"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
