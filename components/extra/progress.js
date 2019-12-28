@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text, Card, Icon, Layout } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 
 const Progress = (props) => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, Card, Button } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
-import Ripple from 'react-native-material-ripple';
 
 const BookHotel = () => {
     return(

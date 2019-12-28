@@ -23,7 +23,7 @@ const InputCounter = (props) => {
     }
 
     return (
-        <View style={{ width: '50%' }}>
+        <View style={{}}>
             <Text style={styles.textHeading}>{props.name}</Text>
             <View style={{ flexDirection: 'row' }}>
                 <Button style={styles.btn} appearance='ghost' status='primary' icon={AddIcon} onPress={AddItem} />

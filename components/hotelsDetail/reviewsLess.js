@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Text, Card, Icon, Layout } from '@ui-kitten/components';
+import { Text, Icon } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
-import Ripple from 'react-native-material-ripple';
 import { withNavigation } from 'react-navigation';
 import { addGuests } from '../../redux/actions/hotelDetailActions';
 

@@ -1,14 +1,8 @@
 import React from 'react';
 import { Text, Card } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
-import Ripple from 'react-native-material-ripple';
 
 const RulesPolicies = () => {
-    const [showDesc, setShowDesc] = React.useState(60);
-
-    const revealDescription = () => {
-        showDesc == 60 ? setShowDesc('auto') : setShowDesc(60);
-    }
 
     return(
         <Card style={styles.cardContainer}>

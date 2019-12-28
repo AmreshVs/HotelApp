@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
 import TopNavSimple from '../../components/navigation/topNavSimple';
@@ -15,7 +15,7 @@ import PricingDetails from '../../components/hotelsDetail/pricingDetails';
 import BookHotel from '../../components/hotelsDetail/bookHotel';
 
 const HotelsDetail = (props) => {
-    
+
     var data = props.initialState.AppData;
     return (
         <SafeAreaView style={styles.background}>

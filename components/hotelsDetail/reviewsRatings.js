@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Text, Card, Icon, Layout } from '@ui-kitten/components';
+import { Text, Card, Icon } from '@ui-kitten/components';
 import { StyleSheet, View, Modal, ScrollView } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import { withNavigation } from 'react-navigation';
@@ -76,7 +76,7 @@ const GuestDetails = (props) => {
                 >
                     <View>
                         <TopNavSimple backHandler={toggleModal} screenTitle="All Reviews" />
-                        <ScrollView style={styles.reviewsMore}>
+                        <ScrollView style={styles.reviewsMore} showsVerticalScrollIndicator={false}>
                             {progressData.map((item) => {
                                 return <ReviewsLess key={item.id} />
                             })}
