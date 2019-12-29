@@ -1,8 +1,14 @@
 import React from 'react';
 import { Text, Card, Button } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-const BookHotel = () => {
+const BookHotel = ({navigation}) => {
+
+    const navigatePayment = () => {
+        navigation.navigate('PaymentScreen');
+    }
+
     return(
         <Card style={styles.cardContainer}>
             <View style={styles.container}>
@@ -11,14 +17,14 @@ const BookHotel = () => {
                     <Text style={styles.totalCaption}>Total</Text>
                 </View>
                 <View style={styles.btnContainer}>
-                    <Button>Book Now</Button>
+                    <Button onPress={navigatePayment}>Book Now</Button>
                 </View>
             </View>
         </Card>
     );
 }
 
-export default BookHotel;
+export default withNavigation(BookHotel);
 
 const styles = StyleSheet.create({
     cardContainer:{

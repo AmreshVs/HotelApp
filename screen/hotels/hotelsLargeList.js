@@ -3,17 +3,23 @@ import { SafeAreaView, ScrollView, View } from 'react-native';
 import data from '../../components/home/recommendedRoomsData';
 import RoomsListAllLarge from '../../components/rooms/roomsListAllLarge';
 import TopNavSimple from '../../components/navigation/topNavSimple';
+import { withNavigation } from 'react-navigation';
 
-const HotelsLargeListScreen = () => {
+const HotelsLargeListScreen = ({navigation}) => {
+
+  const navigateHotelDetails = () => {
+    navigation.navigate('HotelsDetail');
+  }
+
   return (
     <SafeAreaView>
       <TopNavSimple screenTitle="Recommended Rooms" />
       <ScrollView showsVerticalScrollIndicator={false}>
-        {data.map((item) => <RoomsListAllLarge key={item.id} image={item.image} rating={item.rating} hotelName={item.hotelName} cost={item.cost}  oldCost={item.oldCost} /> )}
+        {data.map((item) => <RoomsListAllLarge key={item.id} navigate={navigateHotelDetails} image={item.image} rating={item.rating} hotelName={item.hotelName} cost={item.cost}  oldCost={item.oldCost} /> )}
         <View style={{marginBottom: 80}} />
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default HotelsLargeListScreen;
+export default withNavigation(HotelsLargeListScreen);

@@ -13,7 +13,7 @@ const RoomsListAllLarge = (props) => {
 
     return (
         <View style={styles.hotelCard}>
-            <Ripple rippleSize={300} rippleDuration={600}>
+            <Ripple rippleSize={300} rippleDuration={600} onPress={props.navigate}>
                 <Image
                     style={styles.hotelImg}
                     source={{ uri: props.image }}
@@ -30,14 +30,14 @@ const RoomsListAllLarge = (props) => {
                     </Ripple>
                 </View>
             </View>
-            <View style={styles.namePrice}>
+            <Ripple rippleSize={300} rippleDuration={600} style={styles.namePrice} onPress={props.navigate}>
                 <Text style={styles.title}>{props.hotelName}</Text>
                 <View style={styles.priceBlock}>
                     <Text style={styles.oldPrice}>{props.oldCost} </Text>
                     <Text style={styles.price}>{props.cost}</Text>
                     <Text style={styles.priceCaption}>  Per Night</Text>
                 </View>
-            </View>
+            </Ripple>
         </View>
     );
 }

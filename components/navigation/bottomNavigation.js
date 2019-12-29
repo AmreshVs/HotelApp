@@ -9,11 +9,10 @@ const BottomNav = ({ navigation }) => {
     navigation.navigate(selectedTabRoute.routeName);
   };
 
-  const SearchIcon = style => <Icon {...style} name="search-outline" />;
-
-  const BellIcon = style => <Icon {...style} name="bell-outline" />;
-
-  const EmailIcon = style => <Icon {...style} name="email-outline" />;
+  const HomeIcon = style => <Icon {...style} name="home-outline" />;
+  const HeartIcon = style => <Icon {...style} name="heart-outline" />;
+  const BookingIcon = style => <Icon {...style} name="inbox-outline" />;
+  const ProfileIcon = style => <Icon {...style} name="person-outline" />;
 
   return (
     <SafeAreaView>
@@ -24,9 +23,10 @@ const BottomNav = ({ navigation }) => {
         indicatorStyle={styles.indicator}
         style={styles.bottomNavigation}
       >
-        <BottomNavigationTab style={styles.tab} icon={SearchIcon} />
-        <BottomNavigationTab style={styles.tab} icon={BellIcon} />
-        <BottomNavigationTab style={styles.tab} icon={EmailIcon} />
+        <BottomNavigationTab style={styles.tab} icon={HomeIcon} />
+        <BottomNavigationTab style={styles.tab} icon={HeartIcon} />
+        <BottomNavigationTab style={styles.tab} icon={BookingIcon} />
+        <BottomNavigationTab style={styles.tab} icon={ProfileIcon} />
       </BottomNavigation>
     </SafeAreaView>
   );

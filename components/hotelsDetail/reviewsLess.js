@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
         borderRightWidth: 1,
-        borderRightColor: '#DDD',
+        borderRightColor: '#EEE',
     },
     rating:{
         fontSize: 13,

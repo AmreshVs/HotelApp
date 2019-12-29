@@ -50,7 +50,7 @@ const PricingDetails = () => {
         <Card style={styles.cardContainer}>
             <Text style={styles.heading}>Pricing Details & Extra Services</Text>
             <View style={styles.textContainer}>
-                {selectCoupon === '' ? <Text>Apply Coupon</Text> : <Text style={[styles.coupon, {marginTop: 10}]}>{selectCoupon}</Text>}
+                {selectCoupon === '' ? <Text>Apply Coupon</Text> : <Text style={[styles.coupon, {marginTop: 10}]}>Coupon : {selectCoupon}</Text>}
                 <View style={styles.checkboxContainer}>
                     <Text style={styles.checkboxText}>{selectCoupon === '' ? '' : '₹152.73'}</Text>
                     <CheckBox

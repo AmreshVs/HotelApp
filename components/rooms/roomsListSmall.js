@@ -20,21 +20,29 @@ const RoomsListLarge = (props) => {
     return (
         <View style={styles.hotelListCard}>
             <View style={styles.imgContainer}>
-                <Image
-                    style={styles.image}
-                    source={{ uri: props.image }}
-                />
+                <Ripple onPress={props.navigate}>
+                    <Image
+                        style={styles.image}
+                        source={{ uri: props.image }}
+                    />
+                </Ripple>
             </View>
             <View style={styles.contentContainer}>
                 <View style={styles.favContainer}>
-                    <Text style={styles.title}>{hotelname}</Text>
+                    <Ripple onPress={props.navigate}>
+                        <Text style={styles.title}>{hotelname}</Text>
+                    </Ripple>
                     <Ripple rippleSize={50} rippleDuration={600} onPress={saveFavourite} style={styles.heartIconContainer}>
                         <Icon name='heart' style={styles.heartIcon} fill={favcolor} />
                     </Ripple>
                 </View>
-                <Text style={styles.caption}>{props.address}</Text>
+                <Ripple onPress={props.navigate}>
+                    <Text style={styles.caption}>{props.address}</Text>
+                </Ripple>
                 <View style={styles.ratingContainer}>
-                    <ReviewRating rating={props.rating} />
+                    <Ripple onPress={props.navigate}>
+                        <ReviewRating rating={props.rating} />
+                    </Ripple>
                 </View>
                 <View style={styles.priceContainer}>
                     <Text style={styles.oldPrice}>{props.oldCost} </Text>
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
         width: '90%',
         height: 150,
         marginLeft: 20,
-        marginBottom: 15,
+        marginBottom: 10,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#DDD',
