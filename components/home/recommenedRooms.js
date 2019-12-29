@@ -7,6 +7,7 @@ import styles from './styles';
 import data from './recommendedRoomsData';
 import { withNavigation } from 'react-navigation';
 
+
 const RecommendedRooms = ({navigation}) => {
 
     const navigateDetails = () => {
@@ -26,7 +27,7 @@ const RecommendedRooms = ({navigation}) => {
                 </Ripple>
             </View>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                {data.map((item) => <RoomsListLarge key={item.id} navigate={navigateHotelDetails} image={item.image} rating={item.rating} hotelName={item.hotelName} cost={item.cost} oldCost={item.oldCost} /> )}
+                {/* {data.map((item) => <RoomsListLarge key={item.id} navigate={navigateHotelDetails} image={item.image} rating={item.rating} hotelName={item.hotelName} cost={item.cost} oldCost={item.oldCost} /> )} */}
             </ScrollView>
         </View>
     );
