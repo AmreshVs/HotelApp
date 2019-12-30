@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Text } from '@ui-kitten/components';
 import { View, ScrollView } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import RoomsListLarge from '../rooms/roomsListLarge';
 import styles from './styles';
-import data from './recommendedRoomsData';
+// import data from './recommendedRoomsData';
 import { withNavigation } from 'react-navigation';
+import LoadHomeData from '../../redux/thunkActions/loadHomeData';
 
+const RecommendedRooms = (props) => {
+    console.log(props.homeData);
 
-const RecommendedRooms = ({navigation}) => {
+    useEffect(() => {
+        props.LoadHomeData();
+    }, [])
 
     const navigateDetails = () => {
-        navigation.navigate('HotelsLargeList');
+        props.navigation.navigate('HotelsLargeList');
     }
 
     const navigateHotelDetails = () => {
-        navigation.navigate('HotelsDetail');
+        props.navigation.navigate('HotelsDetail');
     }
 
     return(
@@ -27,11 +34,19 @@ const RecommendedRooms = ({navigation}) => {
                 </Ripple>
             </View>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                {/* {data.map((item) => <RoomsListLarge key={item.id} navigate={navigateHotelDetails} image={item.image} rating={item.rating} hotelName={item.hotelName} cost={item.cost} oldCost={item.oldCost} /> )} */}
+                {props.homeData.homeData.map((item) => <RoomsListLarge key={item.alias} navigate={navigateHotelDetails} image={item.image[0].file} rating={item.rating} hotelName={item.title} cost={item.price_start} oldCost={item.price_start + 100} /> )}
             </ScrollView>
         </View>
     );
 }
 
+const mapStateToProps = (state) => {
+    return state;
+}
 
-export default withNavigation(RecommendedRooms);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({LoadHomeData: LoadHomeData}, dispatch);
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(RecommendedRooms));

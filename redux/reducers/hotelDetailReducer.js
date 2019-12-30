@@ -2,8 +2,6 @@ import { OPEN_IMAGE_VIEWER, CLOSE_IMAGE_VIEWER } from '../actionCreators/hotelDe
 import { ADD_GUESTS, REMOVE_GUESTS } from '../actionCreators/hotelDetailAC';
 import { CHOOSE_DATES } from '../actionCreators/hotelDetailAC';
 
-var guests = 0;
-
 const initialState = {
     showImageViewer: false,
     rooms: []
