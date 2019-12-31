@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Text, Button } from '@ui-kitten/components';
 import { View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
@@ -6,15 +7,27 @@ import RoomsListSmall from '../rooms/roomsListSmall';
 import styles from './styles';
 import data from './recommendedRoomsData';
 import { withNavigation } from 'react-navigation';
+import ExclusiveRoomsSK from '../skeletons/exclusiveRoomsSK';
 
-const ExclusiveRooms = ({navigation}) => {
+const ExclusiveRooms = (props) => {
 
     const navigateDetails = () => {
-        navigation.navigate('HotelsExploreRooms');
+        props.navigation.navigate('HotelsExploreRooms');
     }
 
     const navigateHotelDetails = () => {
-        navigation.navigate('HotelsDetail');
+        props.navigation.navigate('HotelsDetail');
+    }
+    
+    var data = [];
+    var loaded = null;
+    if(props.homeData.homeData.exculsive !== undefined && Object.keys(props.homeData.homeData.exculsive).length > 0){
+        data = props.homeData.homeData.exculsive;
+        loaded = true;
+    }
+    else{
+        data = [1, 2];
+        loaded = false;
     }
 
     return(
@@ -25,7 +38,7 @@ const ExclusiveRooms = ({navigation}) => {
                     <Text style={styles.caption}>View More</Text>
                 </Ripple>
             </View>
-            {data.map((item) => <RoomsListSmall key={item.id} navigate={navigateHotelDetails} image={item.image} rating={item.rating} hotelName={item.hotelName} address={item.address} cost={item.cost}  oldCost={item.oldCost} /> )}
+            {data.map((item) => loaded === false ? <ExclusiveRoomsSK key={item + 1} pending={true} /> : <RoomsListSmall key={item.alias} navigate={navigateHotelDetails} image={item.image[0].file} rating={item.avg_rating} hotelName={item.title} address={item.alias} cost={item.price_start}  oldCost={item.price_start - 200} /> )}
             <Ripple rippleDuration={600} onPress={navigateDetails}>
                 <Button style={styles.button} appearance='ghost' status='basic'>View More</Button>
             </Ripple>
@@ -33,5 +46,8 @@ const ExclusiveRooms = ({navigation}) => {
     );
 }
 
+const mapStateToProps = (state) => {
+    return state;
+}
 
-export default withNavigation(ExclusiveRooms);
+export default connect(mapStateToProps)(withNavigation(ExclusiveRooms));

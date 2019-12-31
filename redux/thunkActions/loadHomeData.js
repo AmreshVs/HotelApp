@@ -12,7 +12,7 @@ const LoadHomeData = () => {
             }
         })
         .then(function (response) {
-            dispatch(loadHomeDataSuccess(response.data.data.recommended));
+            dispatch(loadHomeDataSuccess(response.data.data));
         })
         .catch(function (error) {
             dispatch(loadHomeDataError(error));

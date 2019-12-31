@@ -33,8 +33,8 @@ const RoomsListAllLarge = (props) => {
             <Ripple rippleSize={300} rippleDuration={600} style={styles.namePrice} onPress={props.navigate}>
                 <Text style={styles.title}>{props.hotelName}</Text>
                 <View style={styles.priceBlock}>
-                    <Text style={styles.oldPrice}>{props.oldCost} </Text>
-                    <Text style={styles.price}>{props.cost}</Text>
+                    <Text style={styles.oldPrice}>₹{props.oldCost} </Text>
+                    <Text style={styles.price}>₹{props.cost}</Text>
                     <Text style={styles.priceCaption}>  Per Night</Text>
                 </View>
             </Ripple>
@@ -145,5 +145,37 @@ const styles = StyleSheet.create({
         color: '#AAA',
         textDecorationLine: 'line-through', 
         textDecorationStyle: 'solid'
+    },
+    placeholderContainer:{
+        flex: 1, 
+        width: 350,
+        marginLeft: 10,
+        marginRight: 10,
+        alignItems: 'center',
+        position: 'relative',
+        height: 280,
+    },
+    hotelImgPlaceholder: {
+        width: 350,
+        height: 220,
+        borderRadius: 10,
+    },
+    textPlaceholder:{
+        position: 'absolute',
+        bottom: 38,
+        width: 200,
+        height: 50,
+        alignItems: 'center',
+        padding: 1,
+        borderRadius: 50,
+        borderColor: '#DDD',
+    },
+    favouritePlaceholder: {
+        position: 'absolute',
+        right: 15,
+        width: 40,
+        height: 40,
+        marginTop: 12,
+        borderRadius: 50,
     },
 })

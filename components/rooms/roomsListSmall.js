@@ -45,8 +45,8 @@ const RoomsListLarge = (props) => {
                     </Ripple>
                 </View>
                 <View style={styles.priceContainer}>
-                    <Text style={styles.oldPrice}>{props.oldCost} </Text>
-                    <Text style={styles.price}>{props.cost}</Text>
+                    <Text style={styles.oldPrice}>₹{props.oldCost} </Text>
+                    <Text style={styles.price}>₹{props.cost}</Text>
                     <Text style={styles.priceCaption}>  Per Night</Text>
                 </View>
             </View>
