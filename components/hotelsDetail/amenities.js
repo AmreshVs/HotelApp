@@ -3,17 +3,9 @@ import { View, StyleSheet, Image } from 'react-native';
 import { Text, Card } from '@ui-kitten/components';
 import Ripple from 'react-native-material-ripple';
 
-const amenitiesData = [
-    { url: 'http://pandadev.amreshrepos.ml/medias/facility/big/9/air-conditioning.png', name: 'Air Conditioning' },
-    { url: 'http://pandadev.amreshrepos.ml/medias/facility/big/26/bath.png', name: 'Bathroom' },
-    { url: 'http://pandadev.amreshrepos.ml/medias/facility/big/20/free-parking.png', name: 'Free Parking' },
-    { url: 'http://pandadev.amreshrepos.ml/medias/facility/big/27/hairdryer.png', name: 'Hair Dryer' },
-    { url: 'http://pandadev.amreshrepos.ml/medias/facility/big/32/wifi.png', name: 'Free WiFi' },
-    { url: 'http://pandadev.amreshrepos.ml/medias/facility/big/29/tv.png', name: 'Television' },
-    { url: 'http://pandadev.amreshrepos.ml/medias/facility/big/10/safe.png', name: 'Safe' },
-];
+const Amenities = (props) => {
 
-const Amenities = () => {
+    const amenitiesData = props.data;
 
     const [showAmenities, setShowAmenities] = React.useState(90);
 
@@ -26,11 +18,11 @@ const Amenities = () => {
             <Text style={styles.heading}>Amenities</Text>
             <View style={{height: showAmenities, overflow: 'hidden'}}>
                 <View style={styles.amenitiesContainer}>
-                    {amenitiesData.map( item => 
-                        <View key={item.name} style={styles.amenities}>
+                    {amenitiesData.map((item) => 
+                        <View key={item.id} style={styles.amenities}>
                             <Image
                                 style={styles.amenitiesImg}
-                                source={{uri: item.url}}
+                                source={{uri: item.image}}
                             />
                             <Text style={styles.amenitiesName}>{item.name}</Text>   
                         </View>
@@ -66,7 +58,7 @@ const styles = StyleSheet.create({
         alignContent: 'flex-start',
     },
     amenities:{
-        height: 50,
+        height: 45,
         width: '50%',
         flexDirection: 'row',
     },

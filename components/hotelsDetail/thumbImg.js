@@ -5,6 +5,13 @@ import Ripple from 'react-native-material-ripple';
 import Slideshow from 'react-native-image-slider-show';
 
 const ThumbImg = (props) => {
+    
+    var imageArr = [];
+    var i = 0;
+    props.images.map((item) => {
+        imageArr[i] = {url: item.file};
+        i= i+1;
+    })
 
     const [favcolor, setFavcolor] = React.useState('#AAA');
 
@@ -20,11 +27,7 @@ const ThumbImg = (props) => {
             <Slideshow 
                 containerStyle={styles.image}
                 height={300}
-                dataSource={[
-                    { url:'https://images.oyoroomscdn.com/uploads/hotel_image/42030/large/3273f03a218a04da.jpg' },
-                    { url:'https://media-cdn.tripadvisor.com/media/photo-s/0e/72/68/70/suite-lounge.jpg' },
-                    { url:'https://freshome.com/wp-content/uploads/2013/07/Dubai-Underwater-Hotel-Rooms.jpg' }
-                ]}
+                dataSource={imageArr}
             />
         </View>
     );

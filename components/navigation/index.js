@@ -22,6 +22,7 @@ const TabNavigation = createBottomTabNavigator(
     UserProfileScreen: UserProfileScreen,
   },
   {
+    unmountInactiveRoutes: true,
     tabBarComponent: BottomNav,
   }
 );
@@ -37,6 +38,7 @@ const rootStack = createStackNavigator(
     BookingConfirmed: BookingConfirmed,
   },
   {
+    unmountInactiveRoutes: true,
     headerMode: 'none',
   }
 );

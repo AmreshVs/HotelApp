@@ -1,10 +1,14 @@
 import { OPEN_IMAGE_VIEWER, CLOSE_IMAGE_VIEWER } from '../actionCreators/hotelDetailAC';
 import { ADD_GUESTS, REMOVE_GUESTS } from '../actionCreators/hotelDetailAC';
 import { CHOOSE_DATES } from '../actionCreators/hotelDetailAC';
+import { LOAD_HOTELDETAILS_DATA_PENDING, LOAD_HOTELDETAILS_DATA_SUCCESS, LOAD_HOTELDETAILS_DATA_ERROR, CLEAR_DATA } from '../actionCreators/hotelDetailAC';
 
 const initialState = {
     showImageViewer: false,
-    rooms: []
+    rooms: [],
+    pending: true,
+    hotelDetail: [],
+    error: null
 };
 
 const HotelDetailReducer = (state = initialState, action) => {
@@ -19,6 +23,14 @@ const HotelDetailReducer = (state = initialState, action) => {
             return Object.assign({}, state, {rooms: action.payload});
         case CHOOSE_DATES:
             return Object.assign({}, state, {dates: action.payload.dates, rooms: action.payload.rooms});
+        case LOAD_HOTELDETAILS_DATA_PENDING:
+            return Object.assign({}, state, { pending: true });
+        case LOAD_HOTELDETAILS_DATA_SUCCESS:
+            return Object.assign({}, state, { pending: false, hotelDetail: action.payload });
+        case LOAD_HOTELDETAILS_DATA_ERROR:
+            return Object.assign({}, state, { pending: false, error: true });
+        case CLEAR_DATA:
+                return Object.assign({}, state, { pending: true, hotelDetail: [] });
         default:
             return state;
     }

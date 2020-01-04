@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
 import TopNavSimple from '../../components/navigation/topNavSimple';
 import ThumbImg from '../../components/hotelsDetail/thumbImg';
@@ -13,20 +14,35 @@ import ReviewsRatings from '../../components/hotelsDetail/reviewsRatings';
 import RulesPolicies from '../../components/hotelsDetail/rulesPolicies';
 import PricingDetails from '../../components/hotelsDetail/pricingDetails';
 import BookHotel from '../../components/hotelsDetail/bookHotel';
+import LoadHotelDetailsData from '../../redux/thunkActions/loadHotelDetails';
+
+// Skeletons
+import ThumbImageSK from '../../components/skeletons/thumbImageSK';
+import NameBlockSK from '../../components/skeletons/hotelDetail/nameBlockSK';
+import DescriptionBlockSK from '../../components/skeletons/hotelDetail/descriptionBlockSK';
+import AmenitiesBlockSK from '../../components/skeletons/hotelDetail/amenitiesBlockSK';
+import RoomsBlockSK from '../../components/skeletons/hotelDetail/roomsBlockSK';
 
 const HotelsDetail = (props) => {
 
-    var data = props.initialState.AppData;
+    useEffect(() => {
+        props.LoadHotelDetailsData(props.navigation.state.params.alias);
+    }, [])
+    
+    if(props.hotelDetail.hotelDetail.data !== undefined){
+        var data = props.hotelDetail.hotelDetail.data[0];
+    }
+    
     return (
         <SafeAreaView style={styles.background}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <TopNavSimple screenTitle={data[0].hotelName} />
-                <ThumbImg/>
+                <TopNavSimple screenTitle={data !== undefined ? data.title : ''} />
+                {props.hotelDetail.pending === true ? <ThumbImageSK pending={true} /> : <ThumbImg images={data.image}/> }
                 <View style={styles.bodyContainer}>
-                    <NameBlock/>
-                    <HotelDescription/>
-                    <Amenities/>
-                    <RoomsCategory/>
+                    {props.hotelDetail.pending === true ? <NameBlockSK pending={true} /> : <NameBlock/> }
+                    {props.hotelDetail.pending === true ? <DescriptionBlockSK/> : <HotelDescription description={data.descr} /> }
+                    {props.hotelDetail.pending === true ? <AmenitiesBlockSK/> : <Amenities data={data.facility} /> }
+                    {props.hotelDetail.pending === true ? <RoomsBlockSK/> : <RoomsCategory data={data.rooms} /> }
                     <ChooseDates/>
                     <GuestDetails/>
                     <ReviewsRatings/>
@@ -44,7 +60,11 @@ const mapStateToProps = (state) => {
     return state;
 }
 
-export default connect(mapStateToProps)(HotelsDetail);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({LoadHotelDetailsData:LoadHotelDetailsData}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HotelsDetail);
 
 const styles = StyleSheet.create({
     background:{

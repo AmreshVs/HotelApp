@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Text } from '@ui-kitten/components';
 import { View, ScrollView } from 'react-native';
 import Ripple from 'react-native-material-ripple';
@@ -7,6 +8,7 @@ import RoomsListLarge from '../rooms/roomsListLarge';
 import styles from './styles';
 import { withNavigation } from 'react-navigation';
 import RecommendedRoomsSK from '../skeletons/recommendedRoomsSK';
+import { clearData } from '../../redux/actions/hotelDetailActions'; 
 
 const RecommendedRooms = (props) => {
 
@@ -14,8 +16,11 @@ const RecommendedRooms = (props) => {
         props.navigation.navigate('HotelsLargeList');
     }
 
-    const navigateHotelDetails = () => {
-        props.navigation.navigate('HotelsDetail');
+    const navigateHotelDetails = (alias) => {
+        props.clearData();
+        props.navigation.navigate('HotelsDetail',{
+            alias: alias
+        });
     }
 
     var data = [];
@@ -38,7 +43,7 @@ const RecommendedRooms = (props) => {
                 </Ripple>
             </View>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                {data.map((item) => loaded === false ? <RecommendedRoomsSK key={item + 1} pending={true} /> : <RoomsListLarge key={item.alias} navigate={navigateHotelDetails} image={item.image[0].file} rating={item.avg_rating} hotelName={item.title} cost={item.price_start} oldCost={item.price_start + 100} pending={false} /> )}
+                {data.map((item) => loaded === false ? <RecommendedRoomsSK key={item + 1} pending={true} /> : <RoomsListLarge key={item.alias} navigate={() => navigateHotelDetails(item.alias)} image={item.image[0].file} rating={item.avg_rating} hotelName={item.title} cost={item.price_start} oldCost={item.price_start + 100} pending={false} /> )}
             </ScrollView>
         </View>
     );
@@ -48,4 +53,8 @@ const mapStateToProps = (state) => {
     return state;
 }
 
-export default connect(mapStateToProps)(withNavigation(RecommendedRooms));
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({clearData: clearData}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(RecommendedRooms));

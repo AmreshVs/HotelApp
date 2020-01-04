@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ScrollView, View, StyleSheet, Image } from 'react-native';
 import { Text, Card, CheckBox, Icon, Modal, Layout } from '@ui-kitten/components';
-import data from '../home/recommendedRoomsData';
 import Ripple from 'react-native-material-ripple';
 import { openImageViewer, closeImageViewer } from '../../redux/actions/hotelDetailActions';
 import ImageViewer from '../../components/extra/ImageViewer';
@@ -31,9 +30,6 @@ const images = [
 
 const RoomsCategory = (props) => {
 
-    var amenitiesData = props.initialState.amenitiesData;
-    var amenitiesLessData = props.initialState.amenitiesLessData;
-
     const [selectedIndex, setSelectedIndex] = React.useState(1);
 
     const onCheckedChange = (index) => {
@@ -46,16 +42,18 @@ const RoomsCategory = (props) => {
         setVisible(!visible);
     };
 
-    const RenderModalElement = () => (
+    var maxlimit = 20;
+
+    const RenderModalElement = (props) => (
         <Layout style={styles.modalContainer}>
             <Text style={styles.heading}>More Amenities</Text>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.amenitiesContainer}>
-                        {amenitiesData.map( item => 
-                            <View key={item.name} style={styles.amenities}>
+                        {props.amenitiesData.map( item => 
+                            <View key={item.id} style={styles.amenities}>
                                 <Image
                                     style={styles.amenitiesImg}
-                                    source={{uri: item.url}}
+                                    source={{uri: item.image}}
                                 />
                             </View>
                         )}
@@ -67,76 +65,52 @@ const RoomsCategory = (props) => {
     return(
         <Card style={styles.cardContainer}>
             <Text style={styles.heading}>Rooms</Text>
-                <View style={styles.controlContainer}>
-                    <View style={styles.roomDetails}>
-                        <View>
-                            <Ripple onPress={props.openImageViewer}>
-                                <Image
-                                    style={styles.image}
-                                    source={{uri: data[0].image}}
-                                />
-                            </Ripple>
-                        </View>
-                        <View>
-                            <Text style={styles.roomTitle}>Single Bedroom</Text>
-                            <View style={styles.capacity}>
-                                <Icon name='people-outline' fill='#BBB' width={20} height={20} />
-                                <Text style={styles.roomCaption}> x2</Text>
-                            </View>
-                            <View style={styles.roomAmenities}>
-                                {amenitiesLessData.map(item => <Image key={item.name} source={{uri:item.url}} style={styles.roomAmenitiesImg} />)}
-                                <Ripple style={styles.moreBorder} onPress={toggleModal}>
-                                    <Text style={styles.moreCaption}>10+</Text>
-                                </Ripple>
-                                <Modal visible={visible} allowBackdrop={true} onBackdropPress={toggleModal}>
-                                    <RenderModalElement/>
-                                </Modal>
-                            </View>
-                            <CheckBox
-                                style={styles.checkbox}
-                                status='success'
-                                text={data[0].cost}
-                                textStyle={styles.checkText}
-                                checked={selectedIndex == 1 ? true : false}
-                                onChange={() => onCheckedChange(1)}
-                            />
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.controlContainer}>
-                    <View style={styles.roomDetails}>
-                        <View>
-                            <Ripple onPress={props.openImageViewer}>
-                                <Image
-                                    style={styles.image}
-                                    source={{uri: data[1].image}}
-                                />
-                            </Ripple>
-                        </View>
-                        <View>
-                            <Text style={styles.roomTitle}>Deluxe Double Bedroom</Text>
-                            <View style={styles.capacity}>
-                                <Icon name='people-outline' fill='#BBB' width={20} height={20} />
-                                <Text style={styles.roomCaption}> x4</Text>
-                            </View>
-                            <View style={styles.roomAmenities}>
-                                {amenitiesLessData.map(item => <Image key={item.name} source={{uri:item.url}} style={styles.roomAmenitiesImg} />)}
-                                <Ripple style={styles.moreBorder} onPress={toggleModal}>
-                                    <Text style={styles.moreCaption}>10+</Text>
+                {props.data.map((item) => {
+                    var hotelname =  ((item.title).length > maxlimit) ? 
+                    (((item.title).substring(0,maxlimit-3)) + '...') : 
+                    item.title;
+                    return(
+                        <View style={styles.controlContainer}>
+                        <View style={styles.roomDetails}>
+                            <View>
+                                <Ripple onPress={props.openImageViewer}>
+                                    <Image
+                                        style={styles.image}
+                                        source={{uri: item.images[0].file}}
+                                    />
                                 </Ripple>
                             </View>
-                            <CheckBox
-                                style={styles.checkbox}
-                                status='success'
-                                text={data[1].cost}
-                                textStyle={styles.checkText}
-                                checked={selectedIndex == 2 ? true : false}
-                                onChange={() => onCheckedChange(2)}
-                            />
+                            <View>
+                                <Text style={styles.roomTitle}>{hotelname}</Text>
+                                <View style={styles.capacity}>
+                                    <Icon name='people-outline' fill='#BBB' width={20} height={20} />
+                                    <Text style={styles.roomCaption}> x{item.max_people}</Text>
+                                </View>
+                                <View style={styles.roomAmenities}>
+                                    {item.facility.map((amenity) => <Image key={amenity.id} source={{uri:amenity.image}} style={styles.roomAmenitiesImg} />)}
+                                    <Ripple style={styles.moreBorder} onPress={toggleModal}>
+                                        <Text style={styles.moreCaption}>10+</Text>
+                                    </Ripple>
+                                    <Modal visible={visible} allowBackdrop={true} onBackdropPress={toggleModal}>
+                                        <RenderModalElement amenitiesData={item.facility} />
+                                    </Modal>
+                                </View>
+                                <CheckBox
+                                    style={styles.checkbox}
+                                    status='success'
+                                    text={'₹'+item.price}
+                                    textStyle={styles.checkText}
+                                    checked={selectedIndex == 1 ? true : false}
+                                    onChange={() => onCheckedChange(1)}
+                                />
+                            </View>
                         </View>
+                        <ImageViewer images={item.images} show={props.hotelDetail.showImageViewer} onClose={props.closeImageViewer} />
                     </View>
-                </View>
-            <ImageViewer images={images} show={props.hotelDetail.showImageViewer} onClose={props.closeImageViewer} />
+                    )
+                }
+                )}
+                
         </Card>
     );
 }

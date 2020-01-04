@@ -5,21 +5,20 @@ import { StyleSheet, View } from 'react-native';
 import ReviewRating from '../extra/reviewRating';
 
 const NameBlock = (props) => {
-    var data = props;
     return(
         <Card style={styles.cardContainer}>
             <View style={styles.nameprice}>
                 <View style={styles.nameBlock}>
-                    <Text style={styles.roomTitle}>{data.hotelName}</Text>
-                    <Text style={styles.caption}>{data.address}</Text>
+                    <Text style={styles.roomTitle}>{props.title}</Text>
+                    <Text style={styles.caption}>{props.subtitle}</Text>
                     <View style={styles.ratingContainer}>
-                        <ReviewRating rating={data.rating} />
-                        <Text style={styles.ratingCount}><Text style={styles.caption}>{data.rating}</Text><Text style={styles.caption}> | 12 Comments</Text></Text>
+                        <ReviewRating rating={props.avg_rating} />
+                        <Text style={styles.ratingCount}><Text style={styles.caption}>{props.avg_rating}</Text><Text style={styles.caption}> | 12 Comments</Text></Text>
                     </View>
                 </View>
                 <View style={styles.priceBlock}>
-                    <Text style={styles.oldPrice}>{data.oldCost} </Text>
-                    <Text style={styles.price}>{data.cost}</Text>
+                    <Text style={styles.oldPrice}>{props.price_start - 200} </Text>
+                    <Text style={styles.price}>{props.price_start}</Text>
                     <Text style={styles.priceCaption}>  Per Night</Text>
                     <Icon name='map-outline' style={styles.mapIcon} fill='#CCC' />
                 </View>
@@ -29,7 +28,7 @@ const NameBlock = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    return state.initialState.AppData[0];
+    return state.hotelDetail.hotelDetail.data[0];
 }
 
 export default connect(mapStateToProps)(NameBlock);
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
     cardContainer:{
         width: '95%',
         borderRadius: 10,
-        // marginTop: 670,
+        marginTop: 10,
     },
     nameprice:{
         flex: 1,
