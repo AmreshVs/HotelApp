@@ -7,7 +7,9 @@ import { TabNavigator } from './components/navigation/index';
 import { Platform, AppRegistry, View, StyleSheet, StatusBar } from 'react-native';
 import store from './redux/stores/store';
 import { Provider } from 'react-redux';
-
+// if(__DEV__) {
+//   import('./reactronConfig').then(() => console.log('Reactotron Configured'))
+// }
 const App = () => (
   <React.Fragment>
     <Provider store={store}>

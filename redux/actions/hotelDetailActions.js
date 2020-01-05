@@ -1,6 +1,6 @@
 import { OPEN_IMAGE_VIEWER, CLOSE_IMAGE_VIEWER } from '../actionCreators/hotelDetailAC';
 import { ADD_GUESTS, REMOVE_GUESTS } from '../actionCreators/hotelDetailAC';
-import { CHOOSE_DATES, CLEAR_DATA } from '../actionCreators/hotelDetailAC';
+import { CHOOSE_DATES, CLEAR_DATA, SAVE_REVIEW } from '../actionCreators/hotelDetailAC';
 import { LOAD_HOTELDETAILS_DATA_PENDING, LOAD_HOTELDETAILS_DATA_SUCCESS, LOAD_HOTELDETAILS_DATA_ERROR } from '../actionCreators/hotelDetailAC';
 
 // Open Image Viewer on Detail Page
@@ -72,6 +72,13 @@ export const loadHotelDetailsDataError = (payload) => {
 export const clearData = (payload) => {
   return {
     type: CLEAR_DATA,
+    payload
+  };
+};
+
+export const saveReview = (payload) => {
+  return {
+    type: SAVE_REVIEW,
     payload
   };
 };

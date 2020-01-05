@@ -3,13 +3,13 @@ import SkeletonContent from "react-native-skeleton-content";
 import { Card, Text } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
 
-const AmenitiesBlockSK = (props) => {
+const AmenitiesBlockSK = () => {
     return(
         <Card style={styles.cardContainer}>
             <Text style={styles.heading}>Amenities</Text>
             <SkeletonContent
                 containerStyle={styles.placeholderContainer}
-                isLoading={props.pending}
+                isLoading={true}
                 layout={[
                     styles.textPlaceholder1,
                     styles.textPlaceholder2,
@@ -20,7 +20,7 @@ const AmenitiesBlockSK = (props) => {
             </SkeletonContent>
             <SkeletonContent
                 containerStyle={styles.placeholderContainer}
-                isLoading={props.pending}
+                isLoading={true}
                 layout={[
                     styles.textPlaceholder1,
                     styles.textPlaceholder2,
@@ -31,7 +31,7 @@ const AmenitiesBlockSK = (props) => {
             </SkeletonContent>
             <SkeletonContent
                 containerStyle={styles.moreContainer}
-                isLoading={props.pending}
+                isLoading={true}
                 layout={[
                     styles.morePlaceholder,
                 ]}

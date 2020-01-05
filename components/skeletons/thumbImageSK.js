@@ -2,11 +2,11 @@ import React from 'react';
 import SkeletonContent from "react-native-skeleton-content";
 import { StyleSheet } from 'react-native';
 
-const ThumbImageSK = (props) => {
+const ThumbImageSK = () => {
     return(
         <SkeletonContent
             containerStyle={styles.placeholderContainer}
-            isLoading={props.pending}
+            isLoading={true}
             layout={[
                 styles.hotelImgPlaceholder,
             ]}

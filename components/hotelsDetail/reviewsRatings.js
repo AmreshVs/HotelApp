@@ -1,23 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Text, Card, Icon } from '@ui-kitten/components';
 import { StyleSheet, View, Modal, ScrollView } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import { withNavigation } from 'react-navigation';
-import { addGuests } from '../../redux/actions/hotelDetailActions';
 import Progress from '../extra/progress';
 import ReviewsLess from './reviewsLess';
 import TopNavSimple from '../navigation/topNavSimple';
 import WriteReview from './writeReview';
-
-const progressData = [
-    { id: 5, num: 40 },
-    { id: 4, num: 62 },
-    { id: 3, num: 25 },
-    { id: 2, num: 33 },
-    { id: 1, num: 42 },
-];
 
 const GuestDetails = (props) => {
 
@@ -32,6 +21,14 @@ const GuestDetails = (props) => {
         setwriteReview(!writeReview);
     }
 
+    const progressData = [
+        { id: 5, num: props.data.rating5 },
+        { id: 4, num: props.data.rating4 },
+        { id: 3, num: props.data.rating3 },
+        { id: 2, num: props.data.rating2 },
+        { id: 1, num: props.data.rating1 },
+    ];
+
     return (
         <View style={{ width: '100%', marginLeft: 20 }}>
             <Card style={styles.cardContainer}>
@@ -44,9 +41,9 @@ const GuestDetails = (props) => {
                     </View>
                     <View style={styles.ratingsContainer}>
                         <View style={styles.ratingLeft}>
-                            <Text style={styles.rating}>4.5</Text>
+                            <Text style={styles.rating}>{props.data.avg_rating}</Text>
                             <Text style={styles.ratingCaption}>Very Good</Text>
-                            <Text style={styles.ratingNumber}>2151 ratings</Text>
+                            <Text style={styles.ratingNumber}>{props.data.total_rating} ratings</Text>
                         </View>
                         <View style={styles.ratingRight}>
                             {progressData.map((item) => {
@@ -64,7 +61,7 @@ const GuestDetails = (props) => {
                         </View>
                     </View>
                 </View>
-                <ReviewsLess />
+                <ReviewsLess data={props.data.reviews[0]} />
                 <Ripple rippleSize={50} rippleDuration={600} style={styles.seeAllContainer} onPress={toggleModal}>
                     <Text style={styles.seeAll}>See all reviews</Text>
                 </Ripple>
@@ -77,8 +74,8 @@ const GuestDetails = (props) => {
                     <View>
                         <TopNavSimple backHandler={toggleModal} screenTitle="All Reviews" />
                         <ScrollView style={styles.reviewsMore} showsVerticalScrollIndicator={false}>
-                            {progressData.map((item) => {
-                                return <ReviewsLess key={item.id} />
+                            {props.data.reviews.map((item) => {
+                                return <ReviewsLess key={item.id} data={item} />
                             })}
                         </ScrollView>
                     </View>
@@ -99,15 +96,7 @@ const GuestDetails = (props) => {
     );
 }
 
-const mapStateToProps = (state) => {
-    return state.initialState.AppData[0];
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ addGuests: addGuests }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(GuestDetails));
+export default withNavigation(GuestDetails);
 
 const styles = StyleSheet.create({
     cardContainer: {

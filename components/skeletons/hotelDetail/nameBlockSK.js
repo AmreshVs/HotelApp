@@ -3,12 +3,12 @@ import SkeletonContent from "react-native-skeleton-content";
 import { Card } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
 
-const NameBlockSK = (props) => {
+const NameBlockSK = () => {
     return(
         <Card style={styles.cardContainer}>
             <SkeletonContent
                 containerStyle={styles.placeholderContainer}
-                isLoading={props.pending}
+                isLoading={true}
                 layout={[
                     styles.textPlaceholder,
                     styles.textPlaceholder1,

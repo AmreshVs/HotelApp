@@ -22,6 +22,7 @@ import NameBlockSK from '../../components/skeletons/hotelDetail/nameBlockSK';
 import DescriptionBlockSK from '../../components/skeletons/hotelDetail/descriptionBlockSK';
 import AmenitiesBlockSK from '../../components/skeletons/hotelDetail/amenitiesBlockSK';
 import RoomsBlockSK from '../../components/skeletons/hotelDetail/roomsBlockSK';
+import ReviewRatingBlockSK from '../../components/skeletons/hotelDetail/reviewsRatingsSK';
 
 const HotelsDetail = (props) => {
 
@@ -36,16 +37,16 @@ const HotelsDetail = (props) => {
     return (
         <SafeAreaView style={styles.background}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <TopNavSimple screenTitle={data !== undefined ? data.title : ''} />
-                {props.hotelDetail.pending === true ? <ThumbImageSK pending={true} /> : <ThumbImg images={data.image}/> }
+                <TopNavSimple screenTitle={data !== undefined ? data.nameBlock.title : ''} />
+                {props.hotelDetail.pending === true ? <ThumbImageSK pending={true} /> : <ThumbImg images={data.imageBlock}/> }
                 <View style={styles.bodyContainer}>
                     {props.hotelDetail.pending === true ? <NameBlockSK pending={true} /> : <NameBlock/> }
-                    {props.hotelDetail.pending === true ? <DescriptionBlockSK/> : <HotelDescription description={data.descr} /> }
-                    {props.hotelDetail.pending === true ? <AmenitiesBlockSK/> : <Amenities data={data.facility} /> }
-                    {props.hotelDetail.pending === true ? <RoomsBlockSK/> : <RoomsCategory data={data.rooms} /> }
+                    {props.hotelDetail.pending === true ? <DescriptionBlockSK/> : <HotelDescription description={data.descriptionBlock.desc} /> }
+                    {props.hotelDetail.pending === true ? <AmenitiesBlockSK/> : <Amenities data={data.amenitiesBlock} /> }
+                    {props.hotelDetail.pending === true ? <RoomsBlockSK/> : <RoomsCategory data={data.roomsBlock} /> }
                     <ChooseDates/>
                     <GuestDetails/>
-                    <ReviewsRatings/>
+                    {props.hotelDetail.pending === true ? <ReviewRatingBlockSK/> : <ReviewsRatings data={data.reviewsRatingsBlock} /> }
                     <RulesPolicies/>
                     <PricingDetails/>
                     <BookHotel/>

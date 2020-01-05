@@ -31,6 +31,8 @@ const images = [
 const RoomsCategory = (props) => {
 
     const [selectedIndex, setSelectedIndex] = React.useState(1);
+    
+    const [modalImages, setModalImages] = React.useState(props.data[0].images);
 
     const onCheckedChange = (index) => {
         setSelectedIndex(index);
@@ -41,6 +43,11 @@ const RoomsCategory = (props) => {
     const toggleModal = () => {
         setVisible(!visible);
     };
+
+    const addModalImages = (data) => {
+        setModalImages(data);
+        props.openImageViewer();
+    }
 
     var maxlimit = 20;
 
@@ -60,7 +67,7 @@ const RoomsCategory = (props) => {
                     </View>
                 </ScrollView>
         </Layout>
-    );    
+    );  
 
     return(
         <Card style={styles.cardContainer}>
@@ -70,29 +77,29 @@ const RoomsCategory = (props) => {
                     (((item.title).substring(0,maxlimit-3)) + '...') : 
                     item.title;
                     return(
-                        <View style={styles.controlContainer}>
-                        <View style={styles.roomDetails}>
-                            <View>
-                                <Ripple onPress={props.openImageViewer}>
-                                    <Image
-                                        style={styles.image}
-                                        source={{uri: item.images[0].file}}
-                                    />
-                                </Ripple>
-                            </View>
+                        <View key={item.id} style={styles.controlContainer}>
+                            <View style={styles.roomDetails}>
+                                <View>
+                                    <Ripple onPress={() => addModalImages(item.images)}>
+                                        <Image
+                                            style={styles.image}
+                                            source={{uri: item.images[0].source.uri}}
+                                        />
+                                    </Ripple>
+                                </View>
                             <View>
                                 <Text style={styles.roomTitle}>{hotelname}</Text>
                                 <View style={styles.capacity}>
                                     <Icon name='people-outline' fill='#BBB' width={20} height={20} />
-                                    <Text style={styles.roomCaption}> x{item.max_people}</Text>
+                                    <Text style={styles.roomCaption}> x{item.capacity.max_people}</Text>
                                 </View>
                                 <View style={styles.roomAmenities}>
-                                    {item.facility.map((amenity) => <Image key={amenity.id} source={{uri:amenity.image}} style={styles.roomAmenitiesImg} />)}
+                                    {item.amenities.slice(0, 4).map((amenity) => <Image key={amenity.id} source={{uri:amenity.image}} style={styles.roomAmenitiesImg} />)}
                                     <Ripple style={styles.moreBorder} onPress={toggleModal}>
                                         <Text style={styles.moreCaption}>10+</Text>
                                     </Ripple>
                                     <Modal visible={visible} allowBackdrop={true} onBackdropPress={toggleModal}>
-                                        <RenderModalElement amenitiesData={item.facility} />
+                                        <RenderModalElement amenitiesData={item.amenities} />
                                     </Modal>
                                 </View>
                                 <CheckBox
@@ -105,7 +112,7 @@ const RoomsCategory = (props) => {
                                 />
                             </View>
                         </View>
-                        <ImageViewer images={item.images} show={props.hotelDetail.showImageViewer} onClose={props.closeImageViewer} />
+                        <ImageViewer images={modalImages} show={props.hotelDetail.showImageViewer} onClose={props.closeImageViewer} />
                     </View>
                     )
                 }

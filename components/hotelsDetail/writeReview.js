@@ -1,14 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Input, Icon, Button } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
+import SnackBar from 'react-native-snackbar-component';
+import saveReviewRating from '../../redux/thunkActions/saveReview';
 
 const WriteReview = (props) => {
-
+    const errors = props.hotelDetail.save_review;
+    const id = props.hotelDetail.hotelDetail.data[0].nameBlock.id;
     const [value, setValue] = React.useState('');
     const [emailValue, setEmailValue] = React.useState('');
     const [commentsValue, setCommentsValue] = React.useState('');
-
     const [star, setStar] = React.useState(0);
 
     const RatingStars = () => {
@@ -33,38 +37,57 @@ const WriteReview = (props) => {
         )
     }
 
+    const addReview = () => {
+        props.saveReviewRating({id_hotel: id, name: value, rating: star, email: emailValue, comment: commentsValue});
+        if(errors !== null && errors.message === 'success'){
+            props.backHandler();
+        }
+    }
+
     return (
-        <View style={styles.inputContainer} >
-            <Input
-                style={styles.inputs}
-                placeholder='Name'
-                value={value}
-                onChangeText={setValue}
-            />
-            <Input
-                style={styles.inputs}
-                placeholder='Email'
-                value={emailValue}
-                onChangeText={setEmailValue}
-            />
-            <RatingStars/>
-            <Input
-                style={styles.inputsComment}
-                placeholder='Comments'
-                value={commentsValue}
-                onChangeText={setCommentsValue}
-                size='large'
-            />
-            <Button style={styles.button} onPress={props.backHandler} >Submit</Button>
+        <View>
+            <View style={styles.inputContainer} >
+                <Input
+                    style={styles.inputs}
+                    placeholder='Name'
+                    value={value}
+                    onChangeText={setValue}
+                />
+                <Input
+                    style={styles.inputs}
+                    placeholder='Email'
+                    value={emailValue}
+                    onChangeText={setEmailValue}
+                />
+                <RatingStars/>
+                <Input
+                    style={styles.inputsComment}
+                    placeholder='Comments'
+                    value={commentsValue}
+                    onChangeText={setCommentsValue}
+                    size='large'
+                />
+                <Button style={styles.button} onPress={addReview} >Submit</Button>
+            </View>
+            <View style={styles.snackbar}>
+                {errors !== null ? <SnackBar visible={errors.error} textMessage={errors.message} autoHidingTime={5000} actionText="Ok"/> : null }
+            </View>
         </View>
     );
 };
 
-export default WriteReview;
+const mapStateToProps = (state) => {
+    return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({ saveReviewRating: saveReviewRating }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WriteReview);
 
 const styles = StyleSheet.create({
     inputContainer: {
-        justifyContent: 'center',
         alignItems: 'center',
     },
     inputs:{
@@ -89,5 +112,8 @@ const styles = StyleSheet.create({
     button:{
         width: '94%',
         marginTop: 10
+    },
+    snackbar:{
+        marginTop: 60,
     }
 });

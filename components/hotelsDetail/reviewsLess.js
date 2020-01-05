@@ -1,10 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Text, Icon } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { addGuests } from '../../redux/actions/hotelDetailActions';
 
 const ReviewsLess = (props) => {
     return (
@@ -12,29 +8,21 @@ const ReviewsLess = (props) => {
             <View style={styles.ratingName}>
                 <View style={styles.starContainer}>
                     <Icon name='star' style={styles.star} fill='#FFC145' />
-                    <Text style={styles.rating}>3.8</Text>
+                    <Text style={styles.rating}>{props.data.rating}</Text>
                 </View>
                 <View style={styles.nameContainer}>
-                    <Text style={styles.name}>Amresh Vs</Text>
-                    <Text style={styles.postedon}>Posted on 21/12/19</Text>
+                    <Text style={styles.name}>{props.data.name}</Text>
+                    <Text style={styles.postedon}>Posted on {props.data.posted_on}</Text>
                 </View>
             </View>
             <View style={styles.reviewContent}>
-                <Text style={styles.review}>This is the best hotel to choose from Kerala</Text>
+                <Text style={styles.review}>{props.data.msg}</Text>
             </View>
         </View>
     );
 }
 
-const mapStateToProps = (state) => {
-    return state.initialState.AppData[0];
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ addGuests: addGuests }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(ReviewsLess));
+export default ReviewsLess;
 
 const styles = StyleSheet.create({
     reviewsContainer:{
@@ -54,7 +42,9 @@ const styles = StyleSheet.create({
     },
     rating:{
         fontSize: 13,
-        color: '#AAA'
+        color: '#AAA',
+        textAlign: 'center',
+        width: 20,
     },
     ratingName:{
         flexDirection: 'row'

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Text, Button } from '@ui-kitten/components';
 import { View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
@@ -7,6 +8,7 @@ import RoomsListSmall from '../rooms/roomsListSmall';
 import styles from './styles';
 import { withNavigation } from 'react-navigation';
 import ExclusiveRoomsSK from '../skeletons/exclusiveRoomsSK';
+import { clearData } from '../../redux/actions/hotelDetailActions'; 
 
 const ExclusiveRooms = (props) => {
 
@@ -52,4 +54,8 @@ const mapStateToProps = (state) => {
     return state;
 }
 
-export default connect(mapStateToProps)(withNavigation(ExclusiveRooms));
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({clearData: clearData}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(ExclusiveRooms));

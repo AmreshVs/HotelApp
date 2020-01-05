@@ -13,12 +13,12 @@ const NameBlock = (props) => {
                     <Text style={styles.caption}>{props.subtitle}</Text>
                     <View style={styles.ratingContainer}>
                         <ReviewRating rating={props.avg_rating} />
-                        <Text style={styles.ratingCount}><Text style={styles.caption}>{props.avg_rating}</Text><Text style={styles.caption}> | 12 Comments</Text></Text>
+                        <Text style={styles.ratingCount}><Text style={styles.caption}>{props.avg_rating}</Text><Text style={styles.caption}> | {props.total_comments} Comments</Text></Text>
                     </View>
                 </View>
                 <View style={styles.priceBlock}>
-                    <Text style={styles.oldPrice}>{props.price_start - 200} </Text>
-                    <Text style={styles.price}>{props.price_start}</Text>
+                    <Text style={styles.oldPrice}>{props.discount_price} </Text>
+                    <Text style={styles.price}>{props.avg_price}</Text>
                     <Text style={styles.priceCaption}>  Per Night</Text>
                     <Icon name='map-outline' style={styles.mapIcon} fill='#CCC' />
                 </View>
@@ -28,7 +28,7 @@ const NameBlock = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    return state.hotelDetail.hotelDetail.data[0];
+    return state.hotelDetail.hotelDetail.data[0].nameBlock;
 }
 
 export default connect(mapStateToProps)(NameBlock);
