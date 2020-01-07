@@ -15,6 +15,7 @@ import RulesPolicies from '../../components/hotelsDetail/rulesPolicies';
 import PricingDetails from '../../components/hotelsDetail/pricingDetails';
 import BookHotel from '../../components/hotelsDetail/bookHotel';
 import LoadHotelDetailsData from '../../redux/thunkActions/loadHotelDetails';
+import LoadPrices from '../../redux/thunkActions/loadPrices';
 
 // Skeletons
 import ThumbImageSK from '../../components/skeletons/thumbImageSK';
@@ -23,16 +24,36 @@ import DescriptionBlockSK from '../../components/skeletons/hotelDetail/descripti
 import AmenitiesBlockSK from '../../components/skeletons/hotelDetail/amenitiesBlockSK';
 import RoomsBlockSK from '../../components/skeletons/hotelDetail/roomsBlockSK';
 import ReviewRatingBlockSK from '../../components/skeletons/hotelDetail/reviewsRatingsSK';
+import PriceDetailsBlockSK from '../../components/skeletons/hotelDetail/priceDetailsBlockSK';
+import TotalPriceSK from '../../components/skeletons/hotelDetail/totalPriceSK';
 
 const HotelsDetail = (props) => {
 
     useEffect(() => {
-        props.LoadHotelDetailsData(props.navigation.state.params.alias);
+        async function loadDatas(){
+            await props.LoadHotelDetailsData(props.navigation.state.params.alias);
+        }
+        loadDatas();
+        if(props.hotelDetail.hotelDetail.data !== undefined){
+            props.LoadPrices({hotelId : props.hotelDetail.hotelDetail.data[0].nameBlock.id, roomId : props.hotelDetail.hotelDetail.data[0].roomsBlock[0].id, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms });
+        }
     }, [])
     
     if(props.hotelDetail.hotelDetail.data !== undefined){
         var data = props.hotelDetail.hotelDetail.data[0];
     }
+
+    if(props.hotelDetail.prices_services !== undefined && props.hotelDetail.prices_services !== null){
+        var prices = props.hotelDetail.prices_services;
+    }
+
+    const RenderPriceBlock = () => (
+        props.hotelDetail.prices_services !== undefined && props.hotelDetail.prices_services !== null && prices.data.data !== undefined ? <PricingDetails data={prices.data} /> : <PriceDetailsBlockSK/> 
+    )
+
+    const RenderTotal = () => (
+        props.hotelDetail.prices_services !== undefined && props.hotelDetail.prices_services !== null && prices.data.data !== undefined && prices.data.data.price !== undefined ? <BookHotel data={prices.data.data.price.total} /> : <TotalPriceSK/>
+    )
     
     return (
         <SafeAreaView style={styles.background}>
@@ -48,8 +69,8 @@ const HotelsDetail = (props) => {
                     <GuestDetails/>
                     {props.hotelDetail.pending === true ? <ReviewRatingBlockSK/> : <ReviewsRatings data={data.reviewsRatingsBlock} /> }
                     <RulesPolicies/>
-                    <PricingDetails/>
-                    <BookHotel/>
+                    <RenderPriceBlock/>
+                    <RenderTotal/>
                 </View>
                 <View style={{ marginBottom: 10 }} />
             </ScrollView>
@@ -62,7 +83,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({LoadHotelDetailsData:LoadHotelDetailsData}, dispatch);
+    return bindActionCreators({LoadHotelDetailsData:LoadHotelDetailsData, LoadPrices:LoadPrices}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HotelsDetail);

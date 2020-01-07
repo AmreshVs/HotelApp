@@ -6,39 +6,21 @@ import { Text, Card, CheckBox, Icon, Modal, Layout } from '@ui-kitten/components
 import Ripple from 'react-native-material-ripple';
 import { openImageViewer, closeImageViewer } from '../../redux/actions/hotelDetailActions';
 import ImageViewer from '../../components/extra/ImageViewer';
-
-const images = [
-    {
-        source: {
-            uri: 'https://images.oyoroomscdn.com/uploads/hotel_image/42030/large/3273f03a218a04da.jpg',
-        },
-        title: 'Paris',
-    },
-    {
-        source: {
-            uri: 'https://media-cdn.tripadvisor.com/media/photo-s/0e/72/68/70/suite-lounge.jpg',
-        },
-        title: 'Test2',
-    },
-    {
-        source: {
-            uri: 'https://freshome.com/wp-content/uploads/2013/07/Dubai-Underwater-Hotel-Rooms.jpg',
-        },
-        title: 'test3',
-    },
-];
+import LoadPrices from '../../redux/thunkActions/loadPrices';
 
 const RoomsCategory = (props) => {
+    // console.log(props.hotelDetail.prices_services);
+    React.useEffect(() => {
+        props.LoadPrices({hotelId : props.hotelDetail.hotelDetail.data[0].nameBlock.id, roomId : props.hotelDetail.hotelDetail.data[0].roomsBlock[0].id, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms });
+    }, [])
 
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
-    
+    const [selectedIndex, setSelectedIndex] = React.useState(props.data[0].id);
     const [modalImages, setModalImages] = React.useState(props.data[0].images);
+    const [visible, setVisible] = React.useState(false);
 
     const onCheckedChange = (index) => {
         setSelectedIndex(index);
     };
-
-    const [visible, setVisible] = React.useState(false);
 
     const toggleModal = () => {
         setVisible(!visible);
@@ -47,6 +29,10 @@ const RoomsCategory = (props) => {
     const addModalImages = (data) => {
         setModalImages(data);
         props.openImageViewer();
+    }
+
+    const checkRooms = (data) => {
+        onCheckedChange(data);
     }
 
     var maxlimit = 20;
@@ -72,52 +58,50 @@ const RoomsCategory = (props) => {
     return(
         <Card style={styles.cardContainer}>
             <Text style={styles.heading}>Rooms</Text>
-                {props.data.map((item) => {
-                    var hotelname =  ((item.title).length > maxlimit) ? 
-                    (((item.title).substring(0,maxlimit-3)) + '...') : 
-                    item.title;
-                    return(
-                        <View key={item.id} style={styles.controlContainer}>
-                            <View style={styles.roomDetails}>
-                                <View>
-                                    <Ripple onPress={() => addModalImages(item.images)}>
-                                        <Image
-                                            style={styles.image}
-                                            source={{uri: item.images[0].source.uri}}
-                                        />
-                                    </Ripple>
-                                </View>
+            {props.data.map((item) => {
+                var hotelname =  ((item.title).length > maxlimit) ? 
+                (((item.title).substring(0,maxlimit-3)) + '...') : 
+                item.title;
+                return(
+                    <View key={item.id} style={styles.controlContainer}>
+                        <View style={styles.roomDetails}>
                             <View>
-                                <Text style={styles.roomTitle}>{hotelname}</Text>
-                                <View style={styles.capacity}>
-                                    <Icon name='people-outline' fill='#BBB' width={20} height={20} />
-                                    <Text style={styles.roomCaption}> x{item.capacity.max_people}</Text>
-                                </View>
-                                <View style={styles.roomAmenities}>
-                                    {item.amenities.slice(0, 4).map((amenity) => <Image key={amenity.id} source={{uri:amenity.image}} style={styles.roomAmenitiesImg} />)}
-                                    <Ripple style={styles.moreBorder} onPress={toggleModal}>
-                                        <Text style={styles.moreCaption}>10+</Text>
-                                    </Ripple>
-                                    <Modal visible={visible} allowBackdrop={true} onBackdropPress={toggleModal}>
-                                        <RenderModalElement amenitiesData={item.amenities} />
-                                    </Modal>
-                                </View>
-                                <CheckBox
-                                    style={styles.checkbox}
-                                    status='success'
-                                    text={'₹'+item.price}
-                                    textStyle={styles.checkText}
-                                    checked={selectedIndex == 1 ? true : false}
-                                    onChange={() => onCheckedChange(1)}
-                                />
+                                <Ripple onPress={() => addModalImages(item.images)}>
+                                    <Image
+                                        style={styles.image}
+                                        source={{uri: item.images[0].source.uri}}
+                                    />
+                                </Ripple>
                             </View>
+                        <View>
+                            <Text style={styles.roomTitle}>{hotelname}</Text>
+                            <View style={styles.capacity}>
+                                <Icon name='people-outline' fill='#BBB' width={20} height={20} />
+                                <Text style={styles.roomCaption}> x{item.capacity.max_people}</Text>
+                            </View>
+                            <View style={styles.roomAmenities}>
+                                {item.amenities.slice(0, 4).map((amenity) => <Image key={amenity.id} source={{uri:amenity.image}} style={styles.roomAmenitiesImg} />)}
+                                <Ripple style={styles.moreBorder} onPress={toggleModal}>
+                                    <Text style={styles.moreCaption}>10+</Text>
+                                </Ripple>
+                                <Modal visible={visible} allowBackdrop={true} onBackdropPress={toggleModal}>
+                                    <RenderModalElement amenitiesData={item.amenities} />
+                                </Modal>
+                            </View>
+                            <CheckBox
+                                style={styles.checkbox}
+                                status='success'
+                                text={'₹'+item.price}
+                                textStyle={styles.checkText}
+                                checked={item.id == selectedIndex ? true : false}
+                                onChange={() => checkRooms(item.id)}
+                            />
                         </View>
-                        <ImageViewer images={modalImages} show={props.hotelDetail.showImageViewer} onClose={props.closeImageViewer} />
                     </View>
-                    )
-                }
-                )}
-                
+                    <ImageViewer images={modalImages} show={props.hotelDetail.showImageViewer} onClose={props.closeImageViewer} />
+                </View>
+                )
+            })}
         </Card>
     );
 }
@@ -127,7 +111,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ openImageViewer: openImageViewer, closeImageViewer: closeImageViewer }, dispatch);
+    return bindActionCreators({ openImageViewer: openImageViewer, closeImageViewer: closeImageViewer, LoadPrices: LoadPrices }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomsCategory);

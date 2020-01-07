@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { MomentDateService } from '@ui-kitten/moment';
 import { SafeAreaView, StyleSheet, ScrollView } from 'react-native';
 import { Layout, Tab, TabView, Button } from '@ui-kitten/components';
 import SelectGuest from '../../components/hotelsDetail/selectGuest';
 import { RangeCalendar } from '@ui-kitten/components';
 import { withNavigation } from 'react-navigation';
 import { removeGuests, addGuests, chooseDates } from '../../redux/actions/hotelDetailActions';
+import moment from 'moment';
 
 const HotelDates = (props) => {
 
@@ -41,6 +43,8 @@ const HotelDates = (props) => {
         props.chooseDates({dates:{startDate: obj.startDate, endDate: obj.endDate}, rooms:props.rooms });
     }
 
+    const dateService = new MomentDateService();
+
     return (
         <SafeAreaView >
             <TabView
@@ -51,7 +55,8 @@ const HotelDates = (props) => {
                 <Tab title='Check In / Out' style={styles.title}>
                     <Layout style={styles.tabContainer}>
                         <RangeCalendar
-                            range={props.dates !== undefined ? props.dates : {startDate: null, endDate: null}}
+                            dateService={dateService}
+                            range={props.dates !== undefined ? {startDate: moment(props.dates.startDate), endDate: moment(props.dates.endDate)} : {startDate: null, endDate: null}}
                             onSelect={setDateRange}
                         />
                     </Layout>

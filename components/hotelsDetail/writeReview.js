@@ -8,12 +8,16 @@ import SnackBar from 'react-native-snackbar-component';
 import saveReviewRating from '../../redux/thunkActions/saveReview';
 
 const WriteReview = (props) => {
-    const errors = props.hotelDetail.save_review;
+    var errors = props.hotelDetail.save_review;
     const id = props.hotelDetail.hotelDetail.data[0].nameBlock.id;
     const [value, setValue] = React.useState('');
     const [emailValue, setEmailValue] = React.useState('');
     const [commentsValue, setCommentsValue] = React.useState('');
     const [star, setStar] = React.useState(0);
+
+    if(props.hotelDetail.save_review !== null && props.hotelDetail.save_review.message === 'success'){
+        props.backHandler();
+    }
 
     const RatingStars = () => {
         return(
@@ -39,9 +43,6 @@ const WriteReview = (props) => {
 
     const addReview = () => {
         props.saveReviewRating({id_hotel: id, name: value, rating: star, email: emailValue, comment: commentsValue});
-        if(errors !== null && errors.message === 'success'){
-            props.backHandler();
-        }
     }
 
     return (

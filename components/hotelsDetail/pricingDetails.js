@@ -23,11 +23,13 @@ const extraServicesData = [
     {id: 4, name: 'Pet', desc: '', quantity: true, price: '₹35'},
 ];
 
-const PricingDetails = () => {
-
+const PricingDetails = (props) => {
+    const quantitytypes = Object.values(props.data.data.quantity_types);
+    console.log(quantitytypes);
     const [coupon, setCoupon] = React.useState(false);
     const [modal, setModal] = React.useState(false);
     const [selectCoupon, setSelectCoupon] = React.useState('');
+    const [couponPrice, setCouponPrice] = React.useState('');
 
     const openModal = () => {
         if(coupon === false){
@@ -41,8 +43,9 @@ const PricingDetails = () => {
         }
     }
 
-    const closeModal = (item) => {
+    const closeModal = (item, price) => {
         setSelectCoupon(item);
+        setCouponPrice(price);
         setModal(!modal);
     }
 
@@ -52,23 +55,29 @@ const PricingDetails = () => {
             <View style={styles.textContainer}>
                 {selectCoupon === '' ? <Text>Apply Coupon</Text> : <Text style={[styles.coupon, {marginTop: 10}]}>Coupon : {selectCoupon}</Text>}
                 <View style={styles.checkboxContainer}>
-                    <Text style={styles.checkboxText}>{selectCoupon === '' ? '' : '₹152.73'}</Text>
+                    <Text style={styles.checkboxText}>{selectCoupon === '' ? '' : '₹'+couponPrice}</Text>
                     <CheckBox
                         checked={coupon}
                         onChange={openModal}
                     />
                 </View>
             </View>
-            {extraServicesData.map((item) => {
-                return <ExtraServices key={item.id} name={item.name} desc={item.desc} quantity={item.quantity} price={item.price} />
+            {props.data.data.services.map((item) => {
+                return <ExtraServices key={item.service_id} name={item.service_name} desc={''} quantity={quantitytypes.includes(item.service_type) ? false : true} price={'₹'+item.price} />
+            })}
+            {Object.entries(props.data.data.price).map((item) => {
+                if(item[0] !== 'total'){
+                    return(
+                        <View style={styles.textContainer} key={item[0]}>
+                            <Text>{item[0]}</Text>
+                            <Text>₹{item[1]}</Text>
+                        </View>
+                    )
+                }
             })}
             <View style={styles.textContainer}>
-                <Text>VAT</Text>
-                <Text>₹152.73</Text>
-            </View>
-            <View style={styles.textContainer}>
                 <Text style={styles.total}>Total</Text>
-                <Text style={styles.total}>₹1,680</Text>
+                <Text style={styles.total}>₹{props.data.data.price.total}</Text>
             </View>
             <Modal
                 animationType="slide"
@@ -81,17 +90,17 @@ const PricingDetails = () => {
                     <ScrollView style={styles.applyCoupon} showsVerticalScrollIndicator={false}>
                         <Text style={[styles.heading, styles.couponHeading]}>Availabe Coupons</Text> 
                         <View style={styles.couponsContainer}>
-                            {couponsData.map((item) => {
+                            {Object.values(props.data.data.coupons).map((item) => {
                                 return(
                                     <View style={styles.container} key={item.id}>
                                         <View style={styles.coupons}>
                                             <View style={styles.textContent}>
                                                 <Text style={styles.coupon}>
-                                                    {item.name}
+                                                    {item.code}
                                                 </Text>
                                             </View>
                                             <View style={styles.btnContent}>
-                                                <Button style={styles.button} appearance='outline' size='tiny' onPress={() => closeModal(item.name)}>Apply</Button>
+                                                <Button style={styles.button} appearance='outline' size='tiny' onPress={() => closeModal(item.code, item.discount_price)}>Apply</Button>
                                             </View>
                                         </View>
                                         <Text style={styles.couponDesc}>{item.desc}</Text>

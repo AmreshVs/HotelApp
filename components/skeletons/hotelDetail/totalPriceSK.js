@@ -1,30 +1,32 @@
 import React from 'react';
-import { Text, Card, Button } from '@ui-kitten/components';
+import SkeletonContent from "react-native-skeleton-content";
+import { Card, Button } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
 
-const BookHotel = (props) => {
-
-    const navigatePayment = () => {
-        props.navigation.navigate('PaymentScreen');
-    }
+const TotalPriceSK = () => {
 
     return(
         <Card style={styles.cardContainer}>
             <View style={styles.container}>
                 <View style={styles.textContainer}>
-                    <Text style={styles.total}>₹{props.data}</Text>
-                    <Text style={styles.totalCaption}>Total</Text>
+                <SkeletonContent
+                    containerStyle={styles.placeholderContainer}
+                    isLoading={true}
+                    layout={[
+                        styles.textPlaceholder,
+                    ]}
+                >
+                </SkeletonContent>
                 </View>
                 <View style={styles.btnContainer}>
-                    <Button onPress={navigatePayment}>Book Now</Button>
+                    <Button disabled={true}>Book Now</Button>
                 </View>
             </View>
         </Card>
     );
 }
 
-export default withNavigation(BookHotel);
+export default TotalPriceSK;
 
 const styles = StyleSheet.create({
     cardContainer:{
@@ -55,5 +57,14 @@ const styles = StyleSheet.create({
     },
     container:{
         flexDirection: 'row'
-    }
+    },
+    placeholderContainer:{
+        justifyContent: 'center',
+    },
+    textPlaceholder:{
+        width: 70,
+        height: 40,
+        padding: 1,
+        borderRadius: 10,
+    },
 })

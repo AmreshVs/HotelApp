@@ -7,21 +7,26 @@ import { TabNavigator } from './components/navigation/index';
 import { Platform, AppRegistry, View, StyleSheet, StatusBar } from 'react-native';
 import store from './redux/stores/store';
 import { Provider } from 'react-redux';
+import { enableScreens } from 'react-native-screens';
 // if(__DEV__) {
 //   import('./reactronConfig').then(() => console.log('Reactotron Configured'))
 // }
-const App = () => (
-  <React.Fragment>
-    <Provider store={store}>
-      <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider mapping={mapping} theme={theme}>
-        <StatusBar barStyle="light-content" />
-        <View style={styles.statusBar} />
-        <TabNavigator />
-      </ApplicationProvider>
-    </Provider>
-  </React.Fragment>
-);
+
+const App = () => {
+  enableScreens();
+  return (
+    <React.Fragment>
+      <Provider store={store}>
+        <IconRegistry icons={EvaIconsPack} />
+        <ApplicationProvider mapping={mapping} theme={theme}>
+          <StatusBar barStyle="light-content" />
+          <View style={styles.statusBar} />
+          <TabNavigator />
+        </ApplicationProvider>
+      </Provider>
+    </React.Fragment>
+  );
+}
 
 if (Platform.OS === 'web') {
   AppRegistry.runApplication('JR Jungle Resort', {
