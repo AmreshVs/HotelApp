@@ -18,8 +18,8 @@ const NameBlock = (props) => {
                     </View>
                 </View>
                 <View style={styles.priceBlock}>
-                    <Text style={styles.oldPrice}>{data.discount_price} </Text>
-                    <Text style={styles.price}>{data.avg_price}</Text>
+                    <Text style={styles.oldPrice}>{'₹'+data.discount_price} </Text>
+                    <Text style={styles.price}>{'₹'+data.avg_price}</Text>
                     <Text style={styles.priceCaption}>  Per Night</Text>
                     <Icon name='map-outline' style={styles.mapIcon} fill='#CCC' />
                 </View>

@@ -1,3 +1,4 @@
+// Not Used
 import { LOAD_HOME_DATA_PENDING, LOAD_HOME_DATA_SUCCESS, LOAD_HOME_DATA_ERROR } from '../actionCreators/homeDataAC';
 
 const initialState = {

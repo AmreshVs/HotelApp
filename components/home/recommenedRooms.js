@@ -8,7 +8,6 @@ import RoomsListLarge from '../rooms/roomsListLarge';
 import styles from './styles';
 import { withNavigation } from 'react-navigation';
 import RecommendedRoomsSK from '../skeletons/recommendedRoomsSK';
-import { clearData } from '../../redux/actions/hotelDetailActions'; 
 
 const RecommendedRooms = (props) => {
 
@@ -17,7 +16,6 @@ const RecommendedRooms = (props) => {
     }
 
     const navigateHotelDetails = (alias) => {
-        props.clearData();
         props.navigation.navigate('HotelsDetail',{
             alias: alias
         });
@@ -25,8 +23,8 @@ const RecommendedRooms = (props) => {
 
     var data = [];
     var loaded = null;
-    if(props.homeData.homeData.recommended !== undefined && Object.keys(props.homeData.homeData.recommended).length > 0){
-        data = props.homeData.homeData.recommended;
+    if(props.data !== undefined && Object.keys(props.data).length > 0){
+        data = props.data;
         loaded = true;
     }
     else{
@@ -49,12 +47,4 @@ const RecommendedRooms = (props) => {
     );
 }
 
-const mapStateToProps = (state) => {
-    return state;
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({clearData: clearData}, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(RecommendedRooms));
+export default withNavigation(RecommendedRooms);

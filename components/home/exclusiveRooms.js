@@ -17,7 +17,6 @@ const ExclusiveRooms = (props) => {
     }
 
     const navigateHotelDetails = (alias) => {
-        props.clearData();
         props.navigation.navigate('HotelsDetail',{
             alias: alias
         });
@@ -25,8 +24,8 @@ const ExclusiveRooms = (props) => {
     
     var data = [];
     var loaded = null;
-    if(props.homeData.homeData.exculsive !== undefined && Object.keys(props.homeData.homeData.exculsive).length > 0){
-        data = props.homeData.homeData.exculsive;
+    if(props.data !== undefined && Object.keys(props.data).length > 0){
+        data = props.data;
         loaded = true;
     }
     else{

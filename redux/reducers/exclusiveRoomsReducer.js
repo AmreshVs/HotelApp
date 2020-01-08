@@ -1,3 +1,4 @@
+// Not Used
 import { LOAD_EXROOMS_DATA_PENDING, LOAD_EXROOMS_DATA_SUCCESS, LOAD_EXROOMS_DATA_ERROR } from '../actionCreators/exclusiveRoomsAC';
 
 const initialState = {

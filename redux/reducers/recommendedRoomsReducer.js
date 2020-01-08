@@ -1,3 +1,4 @@
+// Not Used
 import { LOAD_RC_DATA_PENDING, LOAD_RC_DATA_SUCCESS, LOAD_RC_DATA_ERROR } from '../actionCreators/recommendedRoomsAC';
 
 const initialState = {
