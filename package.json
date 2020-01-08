@@ -20,6 +20,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "react": "16.9.0",
+    "react-codemod": "^5.1.1",
     "react-dom": "16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-datepicker-dialog": "0.0.9",

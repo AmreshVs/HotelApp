@@ -5,20 +5,21 @@ import { StyleSheet, View } from 'react-native';
 import ReviewRating from '../extra/reviewRating';
 
 const NameBlock = (props) => {
+    var data = props.data;
     return(
         <Card style={styles.cardContainer}>
             <View style={styles.nameprice}>
                 <View style={styles.nameBlock}>
-                    <Text style={styles.roomTitle}>{props.title}</Text>
-                    <Text style={styles.caption}>{props.subtitle}</Text>
+                    <Text style={styles.roomTitle}>{data.title}</Text>
+                    <Text style={styles.caption}>{data.subtitle}</Text>
                     <View style={styles.ratingContainer}>
-                        <ReviewRating rating={props.avg_rating} />
-                        <Text style={styles.ratingCount}><Text style={styles.caption}>{props.avg_rating}</Text><Text style={styles.caption}> | {props.total_comments} Comments</Text></Text>
+                        <ReviewRating rating={data.avg_rating} />
+                        <Text style={styles.ratingCount}><Text style={styles.caption}>{data.avg_rating}</Text><Text style={styles.caption}> | {data.total_comments} Comments</Text></Text>
                     </View>
                 </View>
                 <View style={styles.priceBlock}>
-                    <Text style={styles.oldPrice}>{props.discount_price} </Text>
-                    <Text style={styles.price}>{props.avg_price}</Text>
+                    <Text style={styles.oldPrice}>{data.discount_price} </Text>
+                    <Text style={styles.price}>{data.avg_price}</Text>
                     <Text style={styles.priceCaption}>  Per Night</Text>
                     <Icon name='map-outline' style={styles.mapIcon} fill='#CCC' />
                 </View>
@@ -27,11 +28,11 @@ const NameBlock = (props) => {
     );
 }
 
-const mapStateToProps = (state) => {
-    return state.hotelDetail.hotelDetail.data[0].nameBlock;
-}
+// const mapStateToProps = (state) => {
+//     return state;
+// }
 
-export default connect(mapStateToProps)(NameBlock);
+export default NameBlock;
 
 const styles = StyleSheet.create({
     cardContainer:{

@@ -28,20 +28,25 @@ import PriceDetailsBlockSK from '../../components/skeletons/hotelDetail/priceDet
 import TotalPriceSK from '../../components/skeletons/hotelDetail/totalPriceSK';
 
 const HotelsDetail = (props) => {
-
+    const [data, setData] = React.useState({});
+    const [loading, setLoading] = React.useState(true);
+    
     useEffect(() => {
         async function loadDatas(){
-            await props.LoadHotelDetailsData(props.navigation.state.params.alias);
+            const response = await LoadHotelDetailsData(props.navigation.state.params.alias);
+            setData(response.data[0]);
+            setLoading(false);
         }
         loadDatas();
-        if(props.hotelDetail.hotelDetail.data !== undefined){
-            props.LoadPrices({hotelId : props.hotelDetail.hotelDetail.data[0].nameBlock.id, roomId : props.hotelDetail.hotelDetail.data[0].roomsBlock[0].id, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms });
-        }
     }, [])
     
-    if(props.hotelDetail.hotelDetail.data !== undefined){
-        var data = props.hotelDetail.hotelDetail.data[0];
-    }
+    // if(props.hotelDetail.hotelDetail.data !== undefined){
+    //     props.LoadPrices({hotelId : props.hotelDetail.hotelDetail.data[0].nameBlock.id, roomId : props.hotelDetail.hotelDetail.data[0].roomsBlock[0].id, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms });
+    // }
+    
+    // if(hotelData !== undefined && Object.values(hotelData).length > 0 && hotelData.hotelDetail.hotelDetail.data !== undefined){
+        // var data = hotelData;
+    // }
 
     if(props.hotelDetail.prices_services !== undefined && props.hotelDetail.prices_services !== null){
         var prices = props.hotelDetail.prices_services;
@@ -58,16 +63,16 @@ const HotelsDetail = (props) => {
     return (
         <SafeAreaView style={styles.background}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <TopNavSimple screenTitle={data !== undefined ? data.nameBlock.title : ''} />
-                {props.hotelDetail.pending === true ? <ThumbImageSK pending={true} /> : <ThumbImg images={data.imageBlock}/> }
+                <TopNavSimple screenTitle={loading === false ? data.nameBlock.title : ''} />
+                {loading === true ? <ThumbImageSK pending={true} /> : <ThumbImg images={data.imageBlock}/> }
                 <View style={styles.bodyContainer}>
-                    {props.hotelDetail.pending === true ? <NameBlockSK pending={true} /> : <NameBlock/> }
-                    {props.hotelDetail.pending === true ? <DescriptionBlockSK/> : <HotelDescription description={data.descriptionBlock.desc} /> }
-                    {props.hotelDetail.pending === true ? <AmenitiesBlockSK/> : <Amenities data={data.amenitiesBlock} /> }
-                    {props.hotelDetail.pending === true ? <RoomsBlockSK/> : <RoomsCategory data={data.roomsBlock} /> }
+                    {loading === true ? <NameBlockSK pending={true} /> : <NameBlock data={data.nameBlock} /> }
+                    {loading === true ? <DescriptionBlockSK/> : <HotelDescription description={data.descriptionBlock.desc} /> }
+                    {loading === true ? <AmenitiesBlockSK/> : <Amenities data={data.amenitiesBlock} /> }
+                    {loading === true ? <RoomsBlockSK/> : <RoomsCategory data={data.roomsBlock} /> }
                     <ChooseDates/>
                     <GuestDetails/>
-                    {props.hotelDetail.pending === true ? <ReviewRatingBlockSK/> : <ReviewsRatings data={data.reviewsRatingsBlock} /> }
+                    {loading === true ? <ReviewRatingBlockSK/> : <ReviewsRatings data={data.reviewsRatingsBlock} /> }
                     <RulesPolicies/>
                     <RenderPriceBlock/>
                     <RenderTotal/>

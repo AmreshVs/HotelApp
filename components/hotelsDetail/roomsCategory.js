@@ -11,7 +11,7 @@ import LoadPrices from '../../redux/thunkActions/loadPrices';
 const RoomsCategory = (props) => {
     // console.log(props.hotelDetail.prices_services);
     React.useEffect(() => {
-        props.LoadPrices({hotelId : props.hotelDetail.hotelDetail.data[0].nameBlock.id, roomId : props.hotelDetail.hotelDetail.data[0].roomsBlock[0].id, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms });
+        // props.LoadPrices({hotelId : props.hotelDetail.hotelDetail.data[0].nameBlock.id, roomId : props.hotelDetail.hotelDetail.data[0].roomsBlock[0].id, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms });
     }, [])
 
     const [selectedIndex, setSelectedIndex] = React.useState(props.data[0].id);

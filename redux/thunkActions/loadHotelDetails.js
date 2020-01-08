@@ -2,9 +2,9 @@ import { loadHotelDetailsDataPending, loadHotelDetailsDataSuccess, loadHotelDeta
 import axios from 'axios';
 
 const LoadHotelDetailsData = (url) => {
-    return dispatch => {
-        dispatch(loadHotelDetailsDataPending());
-        axios({
+    // return dispatch => {
+    //     dispatch(loadHotelDetailsDataPending());
+        return axios({
             method: 'GET',
             url: 'https://pandaapi.amreshrepos.ml/api/v1/view-hotel?alias='+url,
             headers:{
@@ -12,12 +12,14 @@ const LoadHotelDetailsData = (url) => {
             }
         })
         .then(function (response) {
-            dispatch(loadHotelDetailsDataSuccess(response.data.data));
+            // console.log(response.data.data)
+            // dispatch(loadHotelDetailsDataSuccess('success'));
+            return response.data.data;
         })
         .catch(function (error) {
-            dispatch(loadHotelDetailsDataError(error));
+            // dispatch(loadHotelDetailsDataError(error));
         });
-    }
+    // }
 }
 
 export default LoadHotelDetailsData;
