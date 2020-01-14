@@ -14,9 +14,11 @@ const HotelsLargeListScreen = (props) => {
     props.LoadRecommendedRoomsData();
   }, [])
 
-  const navigateHotelDetails = () => {
-    props.navigation.navigate('HotelsDetail');
-  }
+  const navigateHotelDetails = (alias) => {
+    props.navigation.navigate('HotelsDetail',{
+        alias: alias
+    });
+}
 
   var data = [];
   var loaded = null;
@@ -33,7 +35,7 @@ const HotelsLargeListScreen = (props) => {
     <SafeAreaView>
       <TopNavSimple screenTitle="Recommended Rooms" />
       <ScrollView showsVerticalScrollIndicator={false}>
-        {data.map((item) => loaded === false ? <View style={{alignItems: 'center', paddingTop: 20,}}><RecommendedRoomsSK key={item + 1} pending={true} /></View> : <RoomsListAllLarge key={item.alias} navigate={navigateHotelDetails} image={item.image[0].file} rating={item.avg_rating} hotelName={item.title} cost={item.price_start} oldCost={item.price_start + 100} pending={false} /> )}
+        {data.map((item) => loaded === false ? <View style={{alignItems: 'center', paddingTop: 20,}}><RecommendedRoomsSK key={item + 1} pending={true} /></View> : <RoomsListAllLarge key={item.alias} navigate={() => navigateHotelDetails(item.alias)} image={item.image[0].file} rating={item.avg_rating} hotelName={item.title} cost={item.price_start} oldCost={item.price_start + 100} pending={false} /> )}
         <View style={{marginBottom: 80}} />
       </ScrollView>
     </SafeAreaView>
