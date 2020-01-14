@@ -10,6 +10,7 @@ const PriceDetailsBlockSK = () => {
             <SkeletonContent
                 containerStyle={styles.placeholderContainer}
                 isLoading={true}
+                animationType="pulse"
                 layout={[
                     styles.textPlaceholder1,
                     styles.textPlaceholder2,

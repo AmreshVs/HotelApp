@@ -11,6 +11,7 @@ const ReviewRatingBlockSK = () => {
                 <SkeletonContent
                     containerStyle={styles.placeholderContainer}
                     isLoading={true}
+                    animationType="pulse"
                     layout={[
                         styles.hotelImgPlaceholder,
                         styles.textPlaceholder,
@@ -20,6 +21,7 @@ const ReviewRatingBlockSK = () => {
                 <SkeletonContent
                     containerStyle={styles.placeholderContainer1}
                     isLoading={true}
+                    animationType="pulse"
                     layout={[
                         styles.line1,
                         styles.line2,
@@ -34,6 +36,7 @@ const ReviewRatingBlockSK = () => {
                 <SkeletonContent
                     containerStyle={styles.placeholderContainer2}
                     isLoading={true}
+                    animationType="pulse"
                     layout={[
                         styles.hotelImgPlaceholder1,
                     ]}
@@ -42,6 +45,7 @@ const ReviewRatingBlockSK = () => {
                 <SkeletonContent
                     containerStyle={styles.placeholderContainer2}
                     isLoading={true}
+                    animationType="pulse"
                     layout={[
                         styles.reviewName,
                         styles.postedon,
@@ -52,6 +56,7 @@ const ReviewRatingBlockSK = () => {
             <SkeletonContent
                     containerStyle={styles.reviewContainer}
                     isLoading={true}
+                    animationType="pulse"
                     layout={[
                         styles.review,
                     ]}

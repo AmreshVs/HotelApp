@@ -12,6 +12,7 @@ const TotalPriceSK = () => {
                 <SkeletonContent
                     containerStyle={styles.placeholderContainer}
                     isLoading={true}
+                    animationType="pulse"
                     layout={[
                         styles.textPlaceholder,
                     ]}

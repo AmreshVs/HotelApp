@@ -10,6 +10,7 @@ const RoomsBlockSK = () => {
             <SkeletonContent
                 containerStyle={styles.placeholderContainer}
                 isLoading={true}
+                animationType="pulse"
                 layout={[
                     styles.hotelImgPlaceholder,
                     styles.textPlaceholder,
@@ -22,6 +23,7 @@ const RoomsBlockSK = () => {
             <SkeletonContent
                 containerStyle={styles.placeholderContainer}
                 isLoading={true}
+                animationType="pulse"
                 layout={[
                     styles.hotelImgPlaceholder,
                     styles.textPlaceholder,

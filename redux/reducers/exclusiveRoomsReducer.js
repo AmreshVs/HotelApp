@@ -1,5 +1,5 @@
 // Not Used
-import { LOAD_EXROOMS_DATA_PENDING, LOAD_EXROOMS_DATA_SUCCESS, LOAD_EXROOMS_DATA_ERROR } from '../actionCreators/exclusiveRoomsAC';
+import { LOAD_EXROOMS_DATA_ERROR, LOAD_EXROOMS_DATA_PENDING, LOAD_EXROOMS_DATA_SUCCESS } from '../actionCreators/exclusiveRoomsAC';
 
 const initialState = {
     pending: false,

@@ -1,6 +1,6 @@
 import { OPEN_IMAGE_VIEWER, CLOSE_IMAGE_VIEWER, LOAD_PRICES } from '../actionCreators/hotelDetailAC';
-import { ADD_GUESTS, REMOVE_GUESTS } from '../actionCreators/hotelDetailAC';
-import { CHOOSE_DATES, SAVE_REVIEW } from '../actionCreators/hotelDetailAC';
+import { ADD_GUESTS, REMOVE_GUESTS, ADD_SERVICES, REMOVE_SERVICES } from '../actionCreators/hotelDetailAC';
+import { CHOOSE_DATES, SAVE_REVIEW, SERVICE_CHECKED } from '../actionCreators/hotelDetailAC';
 import { LOAD_HOTELDETAILS_DATA_PENDING, LOAD_HOTELDETAILS_DATA_SUCCESS, LOAD_HOTELDETAILS_DATA_ERROR, CLEAR_DATA } from '../actionCreators/hotelDetailAC';
 import moment from 'moment';
 
@@ -8,12 +8,11 @@ const initialState = {
     showImageViewer: false,
     dates: {startDate: moment().format(), endDate: moment().add(1,'days').format()},
     rooms: {1 : {adult: 1, children: 0}},
-    pending: true,
-    hotelDetail: [],
-    error: null,
     save_review: null,
     prices_services: null,
-};
+    services: [],
+    serviceChecked: []
+}; 
 
 const HotelDetailReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -39,6 +38,12 @@ const HotelDetailReducer = (state = initialState, action) => {
             return Object.assign({}, state, { save_review: action.payload } );
         case LOAD_PRICES:
                 return Object.assign({}, state, { prices_services: action.payload } );
+        case ADD_SERVICES:
+            return Object.assign({}, state, {services: action.servicesArr});
+        case REMOVE_SERVICES:
+            return Object.assign({}, state, {services: action.payload});
+        case SERVICE_CHECKED:
+            return Object.assign({}, state, {serviceChecked: action.payload});
         default:
             return state;
     }

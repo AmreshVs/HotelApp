@@ -7,6 +7,7 @@ const ThumbImageSK = () => {
         <SkeletonContent
             containerStyle={styles.placeholderContainer}
             isLoading={true}
+            animationType="pulse"
             layout={[
                 styles.hotelImgPlaceholder,
             ]}

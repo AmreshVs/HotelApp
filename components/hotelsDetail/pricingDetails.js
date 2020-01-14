@@ -4,32 +4,14 @@ import { StyleSheet, View, Modal, ScrollView } from 'react-native';
 import TopNavSimple from '../navigation/topNavSimple';
 import ExtraServices from './extraServices';
 
-const couponsData = [
-    {id: 1, name: 'FIRST', desc: 'Flat 50% OFF on your hotel booking'},
-    {id: 2, name: 'SECOND', desc: 'Flat 35% OFF on your hotel booking'},
-    {id: 3, name: '2020', desc: 'Flat 40% OFF on your hotel booking'},
-    {id: 4, name: 'NEW', desc: 'Flat 60% OFF on your hotel booking'},
-    {id: 5, name: 'NEWYEAR', desc: 'Flat 30% OFF on your hotel booking'},
-    {id: 6, name: 'NEWYEAR', desc: 'Flat 30% OFF on your hotel booking'},
-    {id: 7, name: 'NEWYEAR', desc: 'Flat 30% OFF on your hotel booking'},
-    {id: 8, name: 'NEWYEAR', desc: 'Flat 30% OFF on your hotel booking'},
-    {id: 9, name: 'NEWYEAR', desc: 'Flat 30% OFF on your hotel booking'},
-];
-
-const extraServicesData = [
-    {id: 1, name: 'Towel', desc: '1 hand towel, 1 bath towel, 1 bath mat', quantity: true, price: '₹50'},
-    {id: 2, name: 'Housework', desc: '', quantity: false, price: '₹50'},
-    {id: 3, name: 'Heating', desc: '', quantity: false, price: '₹10'},
-    {id: 4, name: 'Pet', desc: '', quantity: true, price: '₹35'},
-];
-
 const PricingDetails = (props) => {
-    const quantitytypes = Object.values(props.data.data.quantity_types);
-    console.log(quantitytypes);
+    const quantitytypes = props.data.data.quantity_types !== undefined ? Object.values(props.data.data.quantity_types) : null;
+    // console.log(quantitytypes);
     const [coupon, setCoupon] = React.useState(false);
     const [modal, setModal] = React.useState(false);
     const [selectCoupon, setSelectCoupon] = React.useState('');
     const [couponPrice, setCouponPrice] = React.useState('');
+    var servicesId = 0;
 
     const openModal = () => {
         if(coupon === false){
@@ -56,29 +38,29 @@ const PricingDetails = (props) => {
                 {selectCoupon === '' ? <Text>Apply Coupon</Text> : <Text style={[styles.coupon, {marginTop: 10}]}>Coupon : {selectCoupon}</Text>}
                 <View style={styles.checkboxContainer}>
                     <Text style={styles.checkboxText}>{selectCoupon === '' ? '' : '₹'+couponPrice}</Text>
-                    <CheckBox
-                        checked={coupon}
-                        onChange={openModal}
-                    />
+                    {props.data.data.coupons !== undefined ? <CheckBox checked={coupon} onChange={openModal} /> : <CheckBox disabled={true} /> }
                 </View>
             </View>
-            {props.data.data.services.map((item) => {
-                return <ExtraServices key={item.service_id} name={item.service_name} desc={''} quantity={quantitytypes.includes(item.service_type) ? false : true} price={'₹'+item.price} />
-            })}
-            {Object.entries(props.data.data.price).map((item) => {
-                if(item[0] !== 'total'){
-                    return(
-                        <View style={styles.textContainer} key={item[0]}>
-                            <Text>{item[0]}</Text>
-                            <Text>₹{item[1]}</Text>
-                        </View>
-                    )
-                }
+            {props.data.data.services !== undefined && props.data.data.services.map((item) => {
+                servicesId++
+                return <ExtraServices key={item.service_id} id={servicesId} service_id={item.service_id} name={item.service_name} desc={''} quantity={quantitytypes.includes(item.service_type) ? false : true} price={'₹'+item.price} />
             })}
             <View style={styles.textContainer}>
                 <Text style={styles.total}>Total</Text>
-                <Text style={styles.total}>₹{props.data.data.price.total}</Text>
+                <Text style={styles.total}>₹{props.data.data.price !== undefined ? props.data.data.price.total : 0}</Text>
             </View>
+            {props.data.data.price !== undefined &&
+                <View> 
+                    <View style={styles.textContainer}>
+                        <Text>Discount</Text>
+                        <Text>- ₹{props.data.data.price.discount_price}</Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.total}>Total After Discount</Text>
+                        <Text style={styles.total}>₹{props.data.data.price.discount_after_price}</Text>
+                    </View>
+                </View>
+            }
             <Modal
                 animationType="slide"
                 transparent={false}
@@ -90,7 +72,7 @@ const PricingDetails = (props) => {
                     <ScrollView style={styles.applyCoupon} showsVerticalScrollIndicator={false}>
                         <Text style={[styles.heading, styles.couponHeading]}>Availabe Coupons</Text> 
                         <View style={styles.couponsContainer}>
-                            {Object.values(props.data.data.coupons).map((item) => {
+                            {props.data.data.coupons !== undefined && Object.values(props.data.data.coupons).map((item) => {
                                 return(
                                     <View style={styles.container} key={item.id}>
                                         <View style={styles.coupons}>

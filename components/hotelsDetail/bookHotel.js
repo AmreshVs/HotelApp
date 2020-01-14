@@ -13,11 +13,11 @@ const BookHotel = (props) => {
         <Card style={styles.cardContainer}>
             <View style={styles.container}>
                 <View style={styles.textContainer}>
-                    <Text style={styles.total}>₹{props.data}</Text>
+                    <Text style={styles.total}>₹{props.data.price !== undefined ? props.data.price.discount_after_price : 0}</Text>
                     <Text style={styles.totalCaption}>Total</Text>
                 </View>
                 <View style={styles.btnContainer}>
-                    <Button onPress={navigatePayment}>Book Now</Button>
+                    {props.data.price !== undefined ? <Button onPress={navigatePayment}>Book Now</Button> : <Button disabled={true}>Book Now</Button> }
                 </View>
             </View>
         </Card>

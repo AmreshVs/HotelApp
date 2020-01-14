@@ -17,3 +17,9 @@ export const CLEAR_DATA = 'CLEAR_DATA';
 
 export const SAVE_REVIEW = 'SAVE_REVIEW';
 export const LOAD_PRICES = 'LOAD_PRICES';
+
+// Add Services
+export const ADD_SERVICES = 'ADD_SERVICES';
+export const REMOVE_SERVICES = 'REMOVE_SERVICES';
+
+export const SERVICE_CHECKED = 'SERVICE_CHECKED';

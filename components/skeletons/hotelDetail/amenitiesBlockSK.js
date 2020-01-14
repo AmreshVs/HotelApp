@@ -10,6 +10,7 @@ const AmenitiesBlockSK = () => {
             <SkeletonContent
                 containerStyle={styles.placeholderContainer}
                 isLoading={true}
+                animationType="pulse"
                 layout={[
                     styles.textPlaceholder1,
                     styles.textPlaceholder2,
@@ -21,6 +22,7 @@ const AmenitiesBlockSK = () => {
             <SkeletonContent
                 containerStyle={styles.placeholderContainer}
                 isLoading={true}
+                animationType="pulse"
                 layout={[
                     styles.textPlaceholder1,
                     styles.textPlaceholder2,
@@ -32,6 +34,7 @@ const AmenitiesBlockSK = () => {
             <SkeletonContent
                 containerStyle={styles.moreContainer}
                 isLoading={true}
+                animationType="pulse"
                 layout={[
                     styles.morePlaceholder,
                 ]}

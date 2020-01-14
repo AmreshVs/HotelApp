@@ -7,6 +7,7 @@ const ExclusiveRoomsSK = (props) => {
         <SkeletonContent
             containerStyle={styles.placeholderContainer}
             isLoading={props.pending}
+            animationType="pulse"
             layout={[
                 styles.hotelImgPlaceholder,
                 styles.textPlaceholder,

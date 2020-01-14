@@ -1,21 +1,55 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Text, CheckBox, Icon, Tooltip } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
+import { addServices, removeServices, serviceChecked } from '../../redux/actions/hotelDetailActions';
+import LoadPrices from '../../redux/thunkActions/loadPrices';
 
 const ExtraServices = (props) => {
-    const [count, setCount] = React.useState(0);
+    const count = 1;
     const [visible, setVisible] = React.useState(false);
-    const [checked, setChecked] = React.useState(false);
+
+    const checkChange = () => { 
+        
+        const checkArr = props.hotelDetail.serviceChecked;
+        
+        if(!props.hotelDetail.serviceChecked.includes(props.id)){
+            checkArr.push(props.id);
+            props.serviceChecked(checkArr);
+            props.addServices({ id:props.id, serviceId: props.service_id, qty: count });
+        }
+        else{
+            checkArr.splice(checkArr.indexOf(props.id), 1);
+            props.serviceChecked(checkArr);
+            var serviceArr = props.hotelDetail.services;
+            delete serviceArr[props.id];
+            props.removeServices(serviceArr);
+        }
+        props.LoadPrices({hotelId : 4, roomId : 5, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services });
+    }
+
+    const countChange = (type) => {
+        const checkArr = props.hotelDetail.services;
+        if(type === 'add' && checkArr[props.id].qty > 0){
+            checkArr[props.id].qty++;
+            props.addServices({id: props.id, serviceId: checkArr[props.id].service_id, qty: checkArr[props.id].qty});
+        }
+        if(type === 'minus' && checkArr[props.id].qty > 1){
+            checkArr[props.id].qty--;
+            props.addServices({id: props.id, serviceId: checkArr[props.id].service_id, qty: checkArr[props.id].qty});
+        }
+    }
 
     const RenderQuantity = () => {
         return(
             <View style={styles.counterContainer}>
-                <Ripple onPress={() => count >= 0 ? setCount(count+1) : 0}>
+                <Ripple onPress={() => countChange('add')}>
                     <Icon name='plus-outline' width={20} height={20} fill='#AAA' />
                 </Ripple>
-                <Text style={styles.count}>{count}</Text>
-                <Ripple onPress={() => count > 0 ? setCount(count-1) : 0}>
+                <Text style={styles.count}>{props.hotelDetail.services[props.id] !== undefined ? props.hotelDetail.services[props.id].qty : 1}</Text>
+                <Ripple onPress={() => countChange('minus')}>
                     <Icon name='minus-outline' width={20} height={20} fill='#AAA' />
                 </Ripple>
             </View>
@@ -44,8 +78,8 @@ const ExtraServices = (props) => {
                 <View style={styles.checkText}>
                     <Text style={styles.price}>{props.price}</Text>
                     <CheckBox
-                        checked={checked}
-                        onChange={() => setChecked(!checked)}
+                        checked={props.hotelDetail.serviceChecked.includes(props.id) ? true : false}
+                        onChange={checkChange}
                     />
                 </View>
             </View>
@@ -53,7 +87,15 @@ const ExtraServices = (props) => {
     );
 }
 
-export default ExtraServices;
+const mapStateToProps = (state) => {
+    return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({addServices:addServices, removeServices:removeServices, serviceChecked:serviceChecked, LoadPrices:LoadPrices}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExtraServices);
 
 const styles = StyleSheet.create({
     cardContainer:{

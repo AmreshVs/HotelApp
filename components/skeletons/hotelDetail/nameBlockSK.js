@@ -9,6 +9,7 @@ const NameBlockSK = () => {
             <SkeletonContent
                 containerStyle={styles.placeholderContainer}
                 isLoading={true}
+                animationType="pulse"
                 layout={[
                     styles.textPlaceholder,
                     styles.textPlaceholder1,
