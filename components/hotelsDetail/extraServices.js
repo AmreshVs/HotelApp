@@ -8,26 +8,29 @@ import { addServices, removeServices, serviceChecked } from '../../redux/actions
 import LoadPrices from '../../redux/thunkActions/loadPrices';
 
 const ExtraServices = (props) => {
+
     const count = 1;
     const [visible, setVisible] = React.useState(false);
 
-    const checkChange = () => { 
-        
+    const checkChange = async () => { 
+        var check = false;
         const checkArr = props.hotelDetail.serviceChecked;
         
         if(!props.hotelDetail.serviceChecked.includes(props.id)){
             checkArr.push(props.id);
             props.serviceChecked(checkArr);
-            props.addServices({ id:props.id, serviceId: props.service_id, qty: count });
+            check = await props.addServices({ id:props.id, serviceId: props.service_id, qty: count });
         }
         else{
             checkArr.splice(checkArr.indexOf(props.id), 1);
             props.serviceChecked(checkArr);
             var serviceArr = props.hotelDetail.services;
             delete serviceArr[props.id];
-            props.removeServices(serviceArr);
+            check = await props.removeServices(serviceArr);
         }
-        props.LoadPrices({hotelId : 4, roomId : 5, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services });
+        if(check){
+            props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: check.servicesArr });
+        }
     }
 
     const countChange = (type) => {

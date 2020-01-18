@@ -1,7 +1,7 @@
 import { OPEN_IMAGE_VIEWER, CLOSE_IMAGE_VIEWER } from '../actionCreators/hotelDetailAC';
 import { ADD_GUESTS, REMOVE_GUESTS } from '../actionCreators/hotelDetailAC';
-import { ADD_SERVICES, REMOVE_SERVICES, SERVICE_CHECKED, SERVICE_REMOVE_CHECKED } from '../actionCreators/hotelDetailAC';
-import { CHOOSE_DATES, CLEAR_DATA, SAVE_REVIEW, LOAD_PRICES } from '../actionCreators/hotelDetailAC';
+import { ADD_SERVICES, REMOVE_SERVICES, SERVICE_CHECKED, HOTEL_IDS } from '../actionCreators/hotelDetailAC';
+import { CHOOSE_DATES, CLEAR_DATA, SAVE_REVIEW, LOAD_PRICES, CLEAR_PRICES, COUPONS } from '../actionCreators/hotelDetailAC';
 import { LOAD_HOTELDETAILS_DATA_PENDING, LOAD_HOTELDETAILS_DATA_SUCCESS, LOAD_HOTELDETAILS_DATA_ERROR } from '../actionCreators/hotelDetailAC';
 
 // Open Image Viewer on Detail Page
@@ -114,6 +114,20 @@ export const loadPrices = (payload) => {
 export const serviceChecked = (payload) => {
   return {
     type: SERVICE_CHECKED,
+    payload
+  };
+};
+
+export const hotelIds = (payload) => {
+  return {
+    type: HOTEL_IDS,
+    payload
+  };
+};
+
+export const addCoupons = (payload) => {
+  return {
+    type: COUPONS,
     payload
   };
 };

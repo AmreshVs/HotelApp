@@ -23,3 +23,6 @@ export const ADD_SERVICES = 'ADD_SERVICES';
 export const REMOVE_SERVICES = 'REMOVE_SERVICES';
 
 export const SERVICE_CHECKED = 'SERVICE_CHECKED';
+
+export const HOTEL_IDS = 'HOTEL_IDS';
+export const COUPONS = 'COUPONS';

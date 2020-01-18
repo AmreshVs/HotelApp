@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const LoadPrices = (data) => {
     return dispatch => {
+        dispatch(loadPrices({pricesLoading: true, data: {data: []}}));
         axios({
             method: 'POST',
             url: 'https://pandaapi.amreshrepos.ml/api/v1/choose-room',

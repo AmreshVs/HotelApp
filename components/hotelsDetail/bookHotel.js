@@ -10,7 +10,7 @@ const BookHotel = (props) => {
     }
 
     return(
-        <Card style={styles.cardContainer}>
+        <View style={styles.cardContainer}>
             <View style={styles.container}>
                 <View style={styles.textContainer}>
                     <Text style={styles.total}>₹{props.data.price !== undefined ? props.data.price.discount_after_price : 0}</Text>
@@ -20,7 +20,7 @@ const BookHotel = (props) => {
                     {props.data.price !== undefined ? <Button onPress={navigatePayment}>Book Now</Button> : <Button disabled={true}>Book Now</Button> }
                 </View>
             </View>
-        </Card>
+        </View>
     );
 }
 
@@ -28,9 +28,13 @@ export default withNavigation(BookHotel);
 
 const styles = StyleSheet.create({
     cardContainer:{
-        width: '95%',
-        borderRadius: 10,
-        marginTop: 10,
+        // width: '95%',
+        // borderRadius: 10,
+        // marginTop: 10,
+        padding: 10,
+        borderTopWidth: 1,
+        borderTopColor: '#EEE',
+        backgroundColor: '#FFF',
     },
     heading:{
         fontSize: 16,
@@ -40,6 +44,7 @@ const styles = StyleSheet.create({
     },
     textContainer:{
         width: '30%',
+        paddingLeft: 10,
         justifyContent: 'center',
         alignItems: 'flex-start'
     },
@@ -52,8 +57,10 @@ const styles = StyleSheet.create({
     },
     btnContainer:{
         width: '70%',
+        paddingRight: 10,
     },
     container:{
+        // backgroundColor: 'red',
         flexDirection: 'row'
     }
 })

@@ -7,11 +7,14 @@ import Ripple from 'react-native-material-ripple';
 import { openImageViewer, closeImageViewer } from '../../redux/actions/hotelDetailActions';
 import ImageViewer from '../../components/extra/ImageViewer';
 import LoadPrices from '../../redux/thunkActions/loadPrices';
+import { hotelIds } from '../../redux/actions/hotelDetailActions';
 
 const RoomsCategory = (props) => {
-    // console.log(props.hotelDetail.prices_services);
+// console.log(props.hotelDetail.);
     React.useEffect(() => {
-        // props.LoadPrices({hotelId : props.hotelDetail.hotelDetail.data[0].nameBlock.id, roomId : props.hotelDetail.hotelDetail.data[0].roomsBlock[0].id, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms });
+        if(Object.keys(props.hotelDetail.hotelIds).length <= 0){
+            props.hotelIds({hotelId: props.hotelId, roomId: props.data[0].id})
+        }
     }, [])
 
     const [selectedIndex, setSelectedIndex] = React.useState(props.data[0].id);
@@ -33,6 +36,8 @@ const RoomsCategory = (props) => {
 
     const checkRooms = (data) => {
         onCheckedChange(data);
+        props.hotelIds({hotelId: props.hotelId, roomId: data});
+        props.LoadPrices({hotelId : props.hotelId, roomId : data, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services });
     }
 
     var maxlimit = 20;
@@ -111,7 +116,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ openImageViewer: openImageViewer, closeImageViewer: closeImageViewer, LoadPrices: LoadPrices }, dispatch);
+    return bindActionCreators({ openImageViewer: openImageViewer, closeImageViewer: closeImageViewer, LoadPrices: LoadPrices, hotelIds: hotelIds }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomsCategory);

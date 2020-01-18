@@ -21,6 +21,7 @@ import LoadPrices from '../../redux/thunkActions/loadPrices';
 import ThumbImageSK from '../../components/skeletons/thumbImageSK';
 import NameBlockSK from '../../components/skeletons/hotelDetail/nameBlockSK';
 import DescriptionBlockSK from '../../components/skeletons/hotelDetail/descriptionBlockSK';
+import RulesBlockSK from '../../components/skeletons/hotelDetail/rulesBlockSK';
 import AmenitiesBlockSK from '../../components/skeletons/hotelDetail/amenitiesBlockSK';
 import RoomsBlockSK from '../../components/skeletons/hotelDetail/roomsBlockSK';
 import ReviewRatingBlockSK from '../../components/skeletons/hotelDetail/reviewsRatingsSK';
@@ -33,7 +34,9 @@ const HotelsDetail = (props) => {
     const [data, setData] = React.useState({});
     const [loading, setLoading] = React.useState(true);
     const [loadPrices, setLoadPrices] = React.useState(null);
-    const [snack, setSnack] = React.useState(false);
+    const [showSnack, setShowSnack] = React.useState(false);
+
+    const priceCond = props.hotelDetail.prices_services !== undefined && props.hotelDetail.prices_services !== null && props.hotelDetail.prices_services.pricesLoading === false;
     
     useEffect(() => {
         async function loadDatas(){
@@ -57,14 +60,14 @@ const HotelsDetail = (props) => {
     }
 
     const RenderPriceBlock = () => {
-        errors !== undefined && errors !== null && errors.error !== '' ? setSnack(true) : false;
+        errors !== undefined && errors !== null && errors.error !== '' ? setShowSnack(true) : false;
         return (
-            props.hotelDetail.prices_services !== undefined && props.hotelDetail.prices_services !== null && props.hotelDetail.prices_services.data.data !== undefined ? <PricingDetails data={prices.data} /> : <PriceDetailsBlockSK/> 
+            priceCond ? <PricingDetails data={prices.data} /> : <PriceDetailsBlockSK/> 
         );
     }
 
     const RenderTotal = () => (
-        props.hotelDetail.prices_services !== undefined && props.hotelDetail.prices_services !== null && prices.data.data !== undefined ? <BookHotel data={prices.data.data} /> : <TotalPriceSK/>
+        priceCond ? <BookHotel data={prices.data.data} /> : <TotalPriceSK/>
     );
     
     return (
@@ -76,18 +79,18 @@ const HotelsDetail = (props) => {
                     {loading === true ? <NameBlockSK pending={true} /> : <NameBlock data={data.nameBlock} /> }
                     {loading === true ? <DescriptionBlockSK/> : <HotelDescription description={data.descriptionBlock.desc} /> }
                     {loading === true ? <AmenitiesBlockSK/> : <Amenities data={data.amenitiesBlock} /> }
-                    {loading === true ? <RoomsBlockSK/> : <RoomsCategory data={data.roomsBlock} /> }
+                    {loading === true ? <RoomsBlockSK/> : <RoomsCategory hotelId={data.nameBlock.id} data={data.roomsBlock} /> }
                     <ChooseDates/>
                     <GuestDetails/>
                     {loading === true ? <ReviewRatingBlockSK/> : <ReviewsRatings data={data.reviewsRatingsBlock} /> }
-                    <RulesPolicies/>
                     <RenderPriceBlock/>
-                    <RenderTotal/>
+                    {loading === true ? <RulesBlockSK/> : <RulesPolicies/> }
                 </View>
                 <View style={{ marginBottom: 10 }} />
             </ScrollView>
+            <RenderTotal/>
             <View style={styles.snackbar}>
-                {errors !== undefined && errors !== null && errors.error !== undefined ? <SnackBar visible={snack} textMessage={errors.error} actionText="Ok" actionHandler={() => setSnack(false) }/> : null }
+                {errors !== undefined && errors !== null && errors.error !== undefined ? <SnackBar visible={showSnack} textMessage={errors.error} actionText="Ok" actionHandler={() => setShowSnack(false)}/> : null }
             </View>
         </SafeAreaView>
     );
@@ -118,7 +121,6 @@ const styles = StyleSheet.create({
         bottom: 0,
         height: 45,
         overflow: 'hidden',
-        // backgroundColor: 'red',
         zIndex: 999,
         width: '100%',
     }

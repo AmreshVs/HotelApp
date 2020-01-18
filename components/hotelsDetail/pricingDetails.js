@@ -1,33 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Text, Card, CheckBox, Button } from '@ui-kitten/components';
 import { StyleSheet, View, Modal, ScrollView } from 'react-native';
 import TopNavSimple from '../navigation/topNavSimple';
 import ExtraServices from './extraServices';
+import LoadPrices from '../../redux/thunkActions/loadPrices';
+import { addCoupons } from '../../redux/actions/hotelDetailActions';
 
 const PricingDetails = (props) => {
     const quantitytypes = props.data.data.quantity_types !== undefined ? Object.values(props.data.data.quantity_types) : null;
-    // console.log(quantitytypes);
-    const [coupon, setCoupon] = React.useState(false);
     const [modal, setModal] = React.useState(false);
-    const [selectCoupon, setSelectCoupon] = React.useState('');
-    const [couponPrice, setCouponPrice] = React.useState('');
     var servicesId = 0;
 
     const openModal = () => {
-        if(coupon === false){
-            setCoupon(true);
+        if(props.hotelDetail.coupons.code === undefined){
             setModal(!modal);
         }
         else{
-            setCoupon(false);
+            props.addCoupons({});
+            props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services});
             setModal(false);
-            setSelectCoupon('');
         }
     }
 
     const closeModal = (item, price) => {
-        setSelectCoupon(item);
-        setCouponPrice(price);
+        props.addCoupons({code: item, price: price});
+        props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services, coupon_code: item });
         setModal(!modal);
     }
 
@@ -35,10 +34,10 @@ const PricingDetails = (props) => {
         <Card style={styles.cardContainer}>
             <Text style={styles.heading}>Pricing Details & Extra Services</Text>
             <View style={styles.textContainer}>
-                {selectCoupon === '' ? <Text>Apply Coupon</Text> : <Text style={[styles.coupon, {marginTop: 10}]}>Coupon : {selectCoupon}</Text>}
+                {props.hotelDetail.coupons.code === undefined ? <Text>Apply Coupon</Text> : <Text style={[styles.coupon, {marginTop: 10}]}>Coupon : {props.hotelDetail.coupons.code}</Text>}
                 <View style={styles.checkboxContainer}>
-                    <Text style={styles.checkboxText}>{selectCoupon === '' ? '' : '₹'+couponPrice}</Text>
-                    {props.data.data.coupons !== undefined ? <CheckBox checked={coupon} onChange={openModal} /> : <CheckBox disabled={true} /> }
+                    <Text style={styles.checkboxText}>{props.hotelDetail.coupons.price === undefined ? '' : '₹'+props.hotelDetail.coupons.price}</Text>
+                    {props.data.data.coupons !== undefined ? <CheckBox checked={props.hotelDetail.coupons.price !== undefined ? true : false} onChange={openModal} /> : <CheckBox disabled={true} /> }
                 </View>
             </View>
             {props.data.data.services !== undefined && props.data.data.services.map((item) => {
@@ -98,7 +97,15 @@ const PricingDetails = (props) => {
     );
 }
 
-export default PricingDetails;
+const mapStateToProps = (state) => {
+    return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({LoadPrices:LoadPrices, addCoupons:addCoupons}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PricingDetails);
 
 const styles = StyleSheet.create({
     cardContainer:{

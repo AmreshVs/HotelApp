@@ -2,11 +2,11 @@ import React from 'react';
 import SkeletonContent from "react-native-skeleton-content";
 import { StyleSheet } from 'react-native';
 
-const RecommendedRoomsSK = (props) => {
+const RecommendedRoomsSK = () => {
     return(
         <SkeletonContent
             containerStyle={styles.placeholderContainer}
-            isLoading={props.pending}
+            isLoading={true}
             animationType="pulse"
             layout={[
                 styles.hotelImgPlaceholder,

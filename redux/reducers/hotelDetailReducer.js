@@ -1,6 +1,6 @@
-import { OPEN_IMAGE_VIEWER, CLOSE_IMAGE_VIEWER, LOAD_PRICES } from '../actionCreators/hotelDetailAC';
+import { OPEN_IMAGE_VIEWER, CLOSE_IMAGE_VIEWER, LOAD_PRICES, CLEAR_PRICES } from '../actionCreators/hotelDetailAC';
 import { ADD_GUESTS, REMOVE_GUESTS, ADD_SERVICES, REMOVE_SERVICES } from '../actionCreators/hotelDetailAC';
-import { CHOOSE_DATES, SAVE_REVIEW, SERVICE_CHECKED } from '../actionCreators/hotelDetailAC';
+import { CHOOSE_DATES, SAVE_REVIEW, SERVICE_CHECKED, HOTEL_IDS, COUPONS } from '../actionCreators/hotelDetailAC';
 import { LOAD_HOTELDETAILS_DATA_PENDING, LOAD_HOTELDETAILS_DATA_SUCCESS, LOAD_HOTELDETAILS_DATA_ERROR, CLEAR_DATA } from '../actionCreators/hotelDetailAC';
 import moment from 'moment';
 
@@ -11,7 +11,9 @@ const initialState = {
     save_review: null,
     prices_services: null,
     services: [],
-    serviceChecked: []
+    serviceChecked: [],
+    hotelIds: [],
+    coupons: '',
 }; 
 
 const HotelDetailReducer = (state = initialState, action) => {
@@ -37,13 +39,17 @@ const HotelDetailReducer = (state = initialState, action) => {
         case SAVE_REVIEW:
             return Object.assign({}, state, { save_review: action.payload } );
         case LOAD_PRICES:
-                return Object.assign({}, state, { prices_services: action.payload } );
+            return Object.assign({}, state, { prices_services: action.payload } );
         case ADD_SERVICES:
             return Object.assign({}, state, {services: action.servicesArr});
         case REMOVE_SERVICES:
             return Object.assign({}, state, {services: action.payload});
         case SERVICE_CHECKED:
             return Object.assign({}, state, {serviceChecked: action.payload});
+        case HOTEL_IDS:
+            return Object.assign({}, state, {hotelIds: action.payload});
+        case COUPONS:
+            return Object.assign({}, state, {coupons: action.payload});
         default:
             return state;
     }

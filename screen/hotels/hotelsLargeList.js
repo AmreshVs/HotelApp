@@ -7,35 +7,45 @@ import TopNavSimple from '../../components/navigation/topNavSimple';
 import { withNavigation } from 'react-navigation';
 import LoadRecommendedRoomsData from '../../redux/thunkActions/loadRecommendedRoomsData';
 import RecommendedRoomsSK from '../../components/skeletons/recommendedRoomsSK';
+import { loadPrices } from '../../redux/actions/hotelDetailActions';
 
 const HotelsLargeListScreen = (props) => {
 
+  const [loading, setLoading] = React.useState(true);
+  const [data, setData] = React.useState([1, 2]);
+
   useEffect(() => {
-    props.LoadRecommendedRoomsData();
+    async function loadDatas(){
+      const response = await LoadRecommendedRoomsData();
+      setData(response);
+      setLoading(false);
+    }
+    if(loading === true){
+        loadDatas();
+    }
   }, [])
 
   const navigateHotelDetails = (alias) => {
     props.navigation.navigate('HotelsDetail',{
-        alias: alias
+      alias: alias
     });
-}
-
-  var data = [];
-  var loaded = null;
-  if(Object.keys(props.recommendedRooms.data).length > 0){
-      data = props.recommendedRooms.data;
-      loaded = true;
+    props.loadPrices({});
   }
-  else{
-      data = [1, 2];
-      loaded = false;
+
+  const RenderSK = () => {
+    return(
+      <View style={{alignItems: 'center', paddingTop: 20,}}>
+        <RecommendedRoomsSK/>
+        <RecommendedRoomsSK/>
+      </View>
+    )
   }
 
   return (
     <SafeAreaView>
       <TopNavSimple screenTitle="Recommended Rooms" />
       <ScrollView showsVerticalScrollIndicator={false}>
-        {data.map((item) => loaded === false ? <View style={{alignItems: 'center', paddingTop: 20,}}><RecommendedRoomsSK key={item + 1} pending={true} /></View> : <RoomsListAllLarge key={item.alias} navigate={() => navigateHotelDetails(item.alias)} image={item.image[0].file} rating={item.avg_rating} hotelName={item.title} cost={item.price_start} oldCost={item.price_start + 100} pending={false} /> )}
+        {loading === true ? <RenderSK/> : data.map((item) => <RoomsListAllLarge key={item.alias} navigate={() => navigateHotelDetails(item.alias)} image={item.image[0].file} rating={item.avg_rating} hotelName={item.title} cost={item.price_start} oldCost={item.price_start + 100} /> )}
         <View style={{marginBottom: 80}} />
       </ScrollView>
     </SafeAreaView>
@@ -47,7 +57,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({LoadRecommendedRoomsData: LoadRecommendedRoomsData}, dispatch);
+  return bindActionCreators({ loadPrices: loadPrices}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(HotelsLargeListScreen));
