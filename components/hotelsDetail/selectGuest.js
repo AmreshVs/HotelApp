@@ -6,19 +6,22 @@ import { Text, Button, Card, ButtonGroup } from '@ui-kitten/components';
 import { addGuests } from '../../redux/actions/hotelDetailActions';
 
 const SelectGuest = (props) => {
-
     const roomIndex = props.rooms[props.roomNum];
     const [btnIndex, setBtnIndex] = React.useState(roomIndex.adult);
     const [btnCIndex, setBtnCIndex] = React.useState(roomIndex.children);
 
     const setValue = (value) => {
         setBtnIndex(value);
-        props.addGuests({room: props.roomNum, guests: {adult: value, children: btnCIndex}});
+        setTimeout(function() { 
+            props.addGuests({room: props.roomNum, guests: {adult: value, children: btnCIndex}});
+        }, 100);
     }
 
     const setCValue = (value) => {
         setBtnCIndex(value);
-        props.addGuests({room: props.roomNum, guests: {adult: btnIndex, children: value}});
+        setTimeout(function() { 
+            props.addGuests({room: props.roomNum, guests: {adult: btnIndex, children: value}});
+        }, 100);
     }
 
     return (

@@ -28,9 +28,6 @@ export default withNavigation(BookHotel);
 
 const styles = StyleSheet.create({
     cardContainer:{
-        // width: '95%',
-        // borderRadius: 10,
-        // marginTop: 10,
         padding: 10,
         borderTopWidth: 1,
         borderTopColor: '#EEE',
@@ -60,7 +57,6 @@ const styles = StyleSheet.create({
         paddingRight: 10,
     },
     container:{
-        // backgroundColor: 'red',
         flexDirection: 'row'
     }
 })

@@ -1,12 +1,17 @@
-import { OPEN_IMAGE_VIEWER, CLOSE_IMAGE_VIEWER, LOAD_PRICES, CLEAR_PRICES } from '../actionCreators/hotelDetailAC';
+import { OPEN_IMAGE_VIEWER, CLOSE_IMAGE_VIEWER, LOAD_PRICES } from '../actionCreators/hotelDetailAC';
 import { ADD_GUESTS, REMOVE_GUESTS, ADD_SERVICES, REMOVE_SERVICES } from '../actionCreators/hotelDetailAC';
 import { CHOOSE_DATES, SAVE_REVIEW, SERVICE_CHECKED, HOTEL_IDS, COUPONS } from '../actionCreators/hotelDetailAC';
 import { LOAD_HOTELDETAILS_DATA_PENDING, LOAD_HOTELDETAILS_DATA_SUCCESS, LOAD_HOTELDETAILS_DATA_ERROR, CLEAR_DATA } from '../actionCreators/hotelDetailAC';
 import moment from 'moment';
 
+function parseDate(input) {
+    var parts = input.match(/(\d+)/g);
+    return new Date(parts[0], parts[1]-1, parts[2]);
+}
+
 const initialState = {
     showImageViewer: false,
-    dates: {startDate: moment().format(), endDate: moment().add(1,'days').format()},
+    dates: {startDate: parseDate(moment().format()), endDate: parseDate(moment().add(1,'days').format())},
     rooms: {1 : {adult: 1, children: 0}},
     save_review: null,
     prices_services: null,
@@ -27,7 +32,7 @@ const HotelDetailReducer = (state = initialState, action) => {
         case REMOVE_GUESTS:
             return Object.assign({}, state, {rooms: action.payload});
         case CHOOSE_DATES:
-            return Object.assign({}, state, {dates: action.payload.dates, rooms: action.payload.rooms});
+            return Object.assign({}, state, {dates: action.payload.dates});
         case LOAD_HOTELDETAILS_DATA_PENDING:
             return Object.assign({}, state, { pending: true });
         case LOAD_HOTELDETAILS_DATA_SUCCESS:

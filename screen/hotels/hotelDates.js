@@ -1,21 +1,27 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { MomentDateService } from '@ui-kitten/moment';
 import { SafeAreaView, StyleSheet, ScrollView } from 'react-native';
 import { Layout, Tab, TabView, Button } from '@ui-kitten/components';
 import SelectGuest from '../../components/hotelsDetail/selectGuest';
 import { RangeCalendar } from '@ui-kitten/components';
 import { withNavigation } from 'react-navigation';
 import { removeGuests, addGuests, chooseDates } from '../../redux/actions/hotelDetailActions';
-import moment from 'moment';
+import LoadPrices from '../../redux/thunkActions/loadPrices';
 
 const HotelDates = (props) => {
 
+    
     const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [range, setRange] = React.useState({startDate: props.dates.startDate, endDate: props.dates.endDate});
+    
 
     const ClosePage = () => {
         props.navigation.goBack();
+        setTimeout(function() { 
+            props.chooseDates({dates: range});
+            props.LoadPrices({hotelId : props.hotelIds.hotelId, roomId : props.hotelIds.roomId, dates: props.dates, rooms: props.rooms, service: props.services });
+        }, 10);
     }
 
     const roomsLength = Object.keys(props.rooms).length;
@@ -23,8 +29,8 @@ const HotelDates = (props) => {
     for(var i=1;i<=roomsLength;i++){
         rooms.push(i);
     }
-    
     const [roomsArray, setRoomsArray] = React.useState(rooms);
+    
     var lastNum = roomsArray.slice(-1);
 
     const addRoom = () => {
@@ -40,23 +46,21 @@ const HotelDates = (props) => {
     }
 
     const setDateRange = (obj) => {
-        props.chooseDates({dates:{startDate: obj.startDate, endDate: obj.endDate}, rooms:props.rooms });
+        setRange({startDate: obj.startDate, endDate: obj.endDate});
     }
-
-    const dateService = new MomentDateService();
 
     return (
         <SafeAreaView >
             <TabView
                 selectedIndex={selectedIndex}
                 onSelect={setSelectedIndex}
-                style={{ height: '90%' }}
+                style={{ height: '91%' }}
             >
                 <Tab title='Check In / Out' style={styles.title}>
                     <Layout style={styles.tabContainer}>
                         <RangeCalendar
-                            dateService={dateService}
-                            range={props.dates !== undefined ? {startDate: moment(props.dates.startDate), endDate: moment(props.dates.endDate)} : {startDate: null, endDate: null}}
+                            style={styles.calender}
+                            range={range}
                             onSelect={setDateRange}
                         />
                     </Layout>
@@ -65,7 +69,7 @@ const HotelDates = (props) => {
                     <ScrollView style={[styles.tabContainer, styles.guests]}  showsVerticalScrollIndicator={false}>
                         {roomsArray.map((item) => {
                             if(props.rooms[item] !== undefined){
-                                return <SelectGuest key={item} roomNum={item} adult={props.rooms[item].adult} children={props.rooms[item].children} removeRoom={removeRoom} /> 
+                                return <SelectGuest key={item} roomNum={item} adult={props.rooms[item].adult} children={props.rooms[item].children} removeRoom={removeRoom} ClosePage={ClosePage} /> 
                             }
                         })}
                         <Button style={styles.addRoom} appearance='outline' status='primary' onPress={addRoom}>Add Room</Button>
@@ -82,7 +86,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ removeGuests: removeGuests, addGuests: addGuests, chooseDates: chooseDates }, dispatch);
+    return bindActionCreators({ removeGuests: removeGuests, addGuests: addGuests, chooseDates: chooseDates, LoadPrices:LoadPrices }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(HotelDates));
@@ -96,8 +100,12 @@ const styles = StyleSheet.create({
     },
     guests: {
         margin: 20,
+        marginBottom: 0,
     },
     button: {
         margin: 10
     },
+    calender:{
+        width: '100%',
+    }
 });

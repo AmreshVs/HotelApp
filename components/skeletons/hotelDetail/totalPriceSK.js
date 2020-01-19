@@ -1,12 +1,12 @@
 import React from 'react';
 import SkeletonContent from "react-native-skeleton-content";
-import { Card, Button } from '@ui-kitten/components';
+import { Button } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 
 const TotalPriceSK = () => {
 
     return(
-        <Card style={styles.cardContainer}>
+        <View style={styles.cardContainer}>
             <View style={styles.container}>
                 <View style={styles.textContainer}>
                 <SkeletonContent
@@ -23,7 +23,7 @@ const TotalPriceSK = () => {
                     <Button disabled={true}>Book Now</Button>
                 </View>
             </View>
-        </Card>
+        </View>
     );
 }
 
@@ -31,9 +31,10 @@ export default TotalPriceSK;
 
 const styles = StyleSheet.create({
     cardContainer:{
-        width: '95%',
-        borderRadius: 10,
-        marginTop: 10,
+        padding: 10,
+        borderTopWidth: 1,
+        borderTopColor: '#EEE',
+        backgroundColor: '#FFF',
     },
     heading:{
         fontSize: 16,
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     textContainer:{
+        paddingLeft: 10,
         width: '30%',
         justifyContent: 'center',
         alignItems: 'flex-start'
@@ -54,6 +56,7 @@ const styles = StyleSheet.create({
         color: '#AAA'
     },
     btnContainer:{
+        paddingRight: 10,
         width: '70%',
     },
     container:{

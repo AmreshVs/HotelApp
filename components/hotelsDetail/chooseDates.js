@@ -22,7 +22,6 @@ const ChooseDates = (props) => {
         }
     }
 
-
     const hotelDates = () => {
         if(Object.keys(rooms).length <= 0){
             props.addGuests({room: 1 , guests: {adult: 1, children: 0}});

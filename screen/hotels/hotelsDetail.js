@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
+import SnackBar from 'react-native-snackbar-component';
+
 import TopNavSimple from '../../components/navigation/topNavSimple';
 import ThumbImg from '../../components/hotelsDetail/thumbImg';
 import NameBlock from '../../components/hotelsDetail/nameBlock';
@@ -21,13 +23,15 @@ import LoadPrices from '../../redux/thunkActions/loadPrices';
 import ThumbImageSK from '../../components/skeletons/thumbImageSK';
 import NameBlockSK from '../../components/skeletons/hotelDetail/nameBlockSK';
 import DescriptionBlockSK from '../../components/skeletons/hotelDetail/descriptionBlockSK';
+import ChooseRoomsBlockSK from '../../components/skeletons/hotelDetail/chooseRoomsBlockSK';
+import GuestDetailsBlockSK from '../../components/skeletons/hotelDetail/guestDetailsBlockSK';
 import RulesBlockSK from '../../components/skeletons/hotelDetail/rulesBlockSK';
 import AmenitiesBlockSK from '../../components/skeletons/hotelDetail/amenitiesBlockSK';
 import RoomsBlockSK from '../../components/skeletons/hotelDetail/roomsBlockSK';
 import ReviewRatingBlockSK from '../../components/skeletons/hotelDetail/reviewsRatingsSK';
 import PriceDetailsBlockSK from '../../components/skeletons/hotelDetail/priceDetailsBlockSK';
 import TotalPriceSK from '../../components/skeletons/hotelDetail/totalPriceSK';
-import SnackBar from 'react-native-snackbar-component';
+
 
 const HotelsDetail = (props) => {
     var errors = props.hotelDetail.prices_services;
@@ -67,7 +71,16 @@ const HotelsDetail = (props) => {
     }
 
     const RenderTotal = () => (
-        priceCond ? <BookHotel data={prices.data.data} /> : <TotalPriceSK/>
+        priceCond ? 
+        <View>
+            <BookHotel data={prices.data.data} />
+            {errors !== undefined && errors !== null && errors.error !== undefined ?
+                <View style={styles.snackbar}>
+                    <SnackBar visible={showSnack} textMessage={errors.error} actionText="Ok" actionHandler={() => setShowSnack(false)}/>
+                </View>
+            : null }
+        </View> 
+        : <TotalPriceSK/>
     );
     
     return (
@@ -80,8 +93,8 @@ const HotelsDetail = (props) => {
                     {loading === true ? <DescriptionBlockSK/> : <HotelDescription description={data.descriptionBlock.desc} /> }
                     {loading === true ? <AmenitiesBlockSK/> : <Amenities data={data.amenitiesBlock} /> }
                     {loading === true ? <RoomsBlockSK/> : <RoomsCategory hotelId={data.nameBlock.id} data={data.roomsBlock} /> }
-                    <ChooseDates/>
-                    <GuestDetails/>
+                    {loading === true ? <ChooseRoomsBlockSK/> : <ChooseDates/> }
+                    {loading === true ? <GuestDetailsBlockSK/> : <GuestDetails/> }
                     {loading === true ? <ReviewRatingBlockSK/> : <ReviewsRatings data={data.reviewsRatingsBlock} /> }
                     <RenderPriceBlock/>
                     {loading === true ? <RulesBlockSK/> : <RulesPolicies/> }
@@ -89,9 +102,6 @@ const HotelsDetail = (props) => {
                 <View style={{ marginBottom: 10 }} />
             </ScrollView>
             <RenderTotal/>
-            <View style={styles.snackbar}>
-                {errors !== undefined && errors !== null && errors.error !== undefined ? <SnackBar visible={showSnack} textMessage={errors.error} actionText="Ok" actionHandler={() => setShowSnack(false)}/> : null }
-            </View>
         </SafeAreaView>
     );
 };
@@ -117,11 +127,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center', 
     },
     snackbar:{
-        position: 'absolute',
-        bottom: 0,
         height: 45,
         overflow: 'hidden',
-        zIndex: 999,
-        width: '100%',
     }
 });
