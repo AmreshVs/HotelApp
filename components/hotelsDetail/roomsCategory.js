@@ -10,7 +10,7 @@ import LoadPrices from '../../redux/thunkActions/loadPrices';
 import { hotelIds } from '../../redux/actions/hotelDetailActions';
 
 const RoomsCategory = (props) => {
-// console.log(props.hotelDetail.);
+
     React.useEffect(() => {
         if(Object.keys(props.hotelDetail.hotelIds).length <= 0){
             props.hotelIds({hotelId: props.hotelId, roomId: props.data[0].id})
@@ -19,13 +19,15 @@ const RoomsCategory = (props) => {
 
     const [selectedIndex, setSelectedIndex] = React.useState(props.data[0].id);
     const [modalImages, setModalImages] = React.useState(props.data[0].images);
+    const [amenities, setAmenities] = React.useState([]);
     const [visible, setVisible] = React.useState(false);
 
     const onCheckedChange = (index) => {
         setSelectedIndex(index);
     };
 
-    const toggleModal = () => {
+    const toggleModal = (amenitiesData) => {
+        setAmenities(amenitiesData);
         setVisible(!visible);
     };
 
@@ -86,11 +88,9 @@ const RoomsCategory = (props) => {
                             </View>
                             <View style={styles.roomAmenities}>
                                 {item.amenities.slice(0, 4).map((amenity) => <Image key={amenity.id} source={{uri:amenity.image}} style={styles.roomAmenitiesImg} />)}
-                                <Ripple style={styles.moreBorder} onPress={toggleModal}>
-                                    <Text style={styles.moreCaption}>10+</Text>
-                                </Ripple>
-                                <Modal visible={visible} allowBackdrop={true} onBackdropPress={toggleModal}>
-                                    <RenderModalElement amenitiesData={item.amenities} />
+                                {item.amenities.length > 4 ? <Ripple style={styles.moreBorder} onPress={() => toggleModal(item.amenities)}><Text style={styles.moreCaption}>{item.amenities.length - 4 + '+'}</Text></Ripple> : false}
+                                <Modal visible={visible} allowBackdrop={true} onBackdropPress={() => toggleModal([])}>
+                                    <RenderModalElement amenitiesData={amenities} />
                                 </Modal>
                             </View>
                             <CheckBox
@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
         marginTop: 8,
         zIndex: -5,
         justifyContent: 'flex-start',
-        // backgroundColor: 'red'
     },
     controlContainer: {
         borderRadius: 5,
@@ -176,7 +175,6 @@ const styles = StyleSheet.create({
         marginTop: 5,
         flexDirection: 'row',
         alignItems: 'center',
-        // backgroundColor: 'green'
     },
     roomAmenitiesImg:{
         width: 18, 
@@ -191,6 +189,8 @@ const styles = StyleSheet.create({
         padding: 1
     },
     moreCaption:{
+        minWidth: 20,
+        textAlign: 'center',
         fontSize: 13,
         color: '#AAA'
     },
@@ -216,14 +216,12 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignContent: 'flex-start',
-        justifyContent: 'center'
     },
     amenities:{
         height: 50,
-        width: '30%',
+        width: '33%',
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     amenitiesImg:{
         width: 25,

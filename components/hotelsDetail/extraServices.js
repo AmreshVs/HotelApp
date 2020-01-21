@@ -29,7 +29,9 @@ const ExtraServices = (props) => {
             check = await props.removeServices(serviceArr);
         }
         if(check){
-            props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: check.servicesArr });
+            setTimeout(function() { 
+                props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: check.servicesArr });
+            }, 10);
         }
     }
 
