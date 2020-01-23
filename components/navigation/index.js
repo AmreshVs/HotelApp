@@ -1,6 +1,7 @@
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
+import LoginScreen from '../../screen/login/index';
 import HomeScreen from '../../screen/home/index';
 import FavouritesScreen from '../../screen/favourites/index';
 import BookingsScreen from '../../screen/bookings/index';
@@ -28,6 +29,7 @@ const TabNavigation = createBottomTabNavigator(
 
 const rootStack = createStackNavigator(
   {
+    LoginScreen: LoginScreen,
     Main: TabNavigation,
     HotelsLargeList: HotelsLargeListScreen,
     HotelsExploreRooms: HotelsExploreRooms,

@@ -7,7 +7,11 @@ const saveReviewRating = (data) => {
         axios({
             method: 'POST',
             url: 'https://pandaapi.amreshrepos.ml/api/v1/add-rating',
-            data: data
+            headers:{
+                'Authorization': 'Bearer testdummy'
+            },
+            data: data,
+            
         })
         .then(function (response) {
             dispatch(saveReview({error: false, message: 'success'}));

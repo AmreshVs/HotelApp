@@ -5,7 +5,8 @@ const LoadHomeData = async () => {
         method: 'GET',
         url: 'https://pandaapi.amreshrepos.ml/api/v1/home',
         headers:{
-            'Accept-Language' : 'en'
+            'Accept-Language' : 'en',
+            'Authorization': 'Bearer testdummy'
         }
     })
     .then(function (response) {

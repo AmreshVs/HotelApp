@@ -97,7 +97,7 @@ const UserProfileScreen = ({navigation}) => {
                     {edit === false ? <RenderTextContent/> : <RenderTextInput/>}
                     <View style={styles.btnContainer}>
                         <Button style={styles.logoutButton} appearance='outline' onPress={handleClick}>{edit === false ? 'Edit' : 'Save'}</Button>
-                        <Button style={styles.logoutButton} status='danger' appearance='outline'>Logout</Button>
+                        <Button style={styles.logoutButton} status='danger' appearance='outline' onPress={() => navigation.navigate('LoginScreen')}>Logout</Button>
                     </View>
                 </Card>
             </View>

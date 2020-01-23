@@ -5,7 +5,8 @@ const LoadHotelDetailsData = async (url) => {
         method: 'GET',
         url: 'https://pandaapi.amreshrepos.ml/api/v1/view-hotel?alias='+url,
         headers:{
-            'Accept-Language' : 'en'
+            'Accept-Language' : 'en',
+            'Authorization': 'Bearer testdummy'
         }
     })
     .then(function (response) {

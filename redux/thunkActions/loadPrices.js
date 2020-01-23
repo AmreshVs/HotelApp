@@ -9,7 +9,8 @@ const LoadPrices = (data) => {
             url: 'https://pandaapi.amreshrepos.ml/api/v1/choose-room',
             headers:{
                 'Accept-Language' : 'en',
-                'Content-Type' : 'application/json'
+                'Content-Type' : 'application/json',
+                'Authorization': 'Bearer testdummy'
             },
             data: data,
         })
