@@ -1,7 +1,7 @@
 import { loadPrices } from '../actions/hotelDetailActions';
 import axios from 'axios';
 
-const LoadPrices = (data) => {
+const LoadPrices = (data, token) => {
     return dispatch => {
         dispatch(loadPrices({pricesLoading: true, data: {data: []}}));
         axios({
@@ -10,7 +10,7 @@ const LoadPrices = (data) => {
             headers:{
                 'Accept-Language' : 'en',
                 'Content-Type' : 'application/json',
-                'Authorization': 'Bearer testdummy'
+                'Authorization': token
             },
             data: data,
         })

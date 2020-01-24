@@ -13,18 +13,18 @@ const HotelDates = (props) => {
 
     
     const [selectedIndex, setSelectedIndex] = React.useState(0);
-    const [range, setRange] = React.useState({startDate: props.dates.startDate, endDate: props.dates.endDate});
+    const [range, setRange] = React.useState({startDate: props.hotelDetail.dates.startDate, endDate: props.hotelDetail.dates.endDate});
     
 
     const ClosePage = () => {
         props.navigation.goBack();
         setTimeout(function() { 
             props.chooseDates({dates: range});
-            props.LoadPrices({hotelId : props.hotelIds.hotelId, roomId : props.hotelIds.roomId, dates: props.dates, rooms: props.rooms, service: props.services });
+            props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services }, props.common.userData.access_token);
         }, 10);
     }
 
-    const roomsLength = Object.keys(props.rooms).length;
+    const roomsLength = Object.keys(props.hotelDetail.rooms).length;
     const rooms = [];
     for(var i=1;i<=roomsLength;i++){
         rooms.push(i);
@@ -40,7 +40,7 @@ const HotelDates = (props) => {
 
     const removeRoom = () => {
         setRoomsArray(roomsArray.slice(0, -1));
-        var guestsArr = props.rooms;
+        var guestsArr = props.hotelDetail.rooms;
         delete guestsArr[roomsArray.length];
         props.removeGuests(guestsArr);
     }
@@ -68,8 +68,8 @@ const HotelDates = (props) => {
                 <Tab title='Guests' style={styles.title}>
                     <ScrollView style={[styles.tabContainer, styles.guests]}  showsVerticalScrollIndicator={false}>
                         {roomsArray.map((item) => {
-                            if(props.rooms[item] !== undefined){
-                                return <SelectGuest key={item} roomNum={item} adult={props.rooms[item].adult} children={props.rooms[item].children} removeRoom={removeRoom} ClosePage={ClosePage} /> 
+                            if(props.hotelDetail.rooms[item] !== undefined){
+                                return <SelectGuest key={item} roomNum={item} adult={props.hotelDetail.rooms[item].adult} children={props.hotelDetail.rooms[item].children} removeRoom={removeRoom} ClosePage={ClosePage} /> 
                             }
                         })}
                         <Button style={styles.addRoom} appearance='outline' status='primary' onPress={addRoom}>Add Room</Button>
@@ -82,7 +82,7 @@ const HotelDates = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return state.hotelDetail;
+    return state;
 }
 
 const mapDispatchToProps = (dispatch) => {

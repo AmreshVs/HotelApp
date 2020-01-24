@@ -39,7 +39,7 @@ const RoomsCategory = (props) => {
     const checkRooms = (data) => {
         onCheckedChange(data);
         props.hotelIds({hotelId: props.hotelId, roomId: data});
-        props.LoadPrices({hotelId : props.hotelId, roomId : data, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services });
+        props.LoadPrices({hotelId : props.hotelId, roomId : data, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services }, props.common.userData.access_token);
     }
 
     var maxlimit = 20;

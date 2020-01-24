@@ -16,7 +16,7 @@ const HotelsLargeListScreen = (props) => {
 
   useEffect(() => {
     async function loadDatas(){
-      const response = await LoadRecommendedRoomsData();
+      const response = await LoadRecommendedRoomsData(props.common.userData.access_token);
       setData(response);
       setLoading(false);
     }

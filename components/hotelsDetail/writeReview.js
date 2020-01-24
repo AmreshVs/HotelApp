@@ -9,7 +9,7 @@ import saveReviewRating from '../../redux/thunkActions/saveReview';
 
 const WriteReview = (props) => {
     var errors = props.hotelDetail.save_review;
-    const id = props.hotelDetail.hotelDetail.data[0].nameBlock.id;
+    const id = props.hotelDetail.hotelIds.hotelId;
     const [value, setValue] = React.useState('');
     const [emailValue, setEmailValue] = React.useState('');
     const [commentsValue, setCommentsValue] = React.useState('');
@@ -42,7 +42,7 @@ const WriteReview = (props) => {
     }
 
     const addReview = () => {
-        props.saveReviewRating({id_hotel: id, name: value, rating: star, email: emailValue, comment: commentsValue});
+        props.saveReviewRating({id_hotel: id, name: value, rating: star, email: emailValue, comment: commentsValue}, props.common.userData.access_token);
     }
 
     return (

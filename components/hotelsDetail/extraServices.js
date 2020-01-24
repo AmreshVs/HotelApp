@@ -20,6 +20,11 @@ const ExtraServices = (props) => {
             checkArr.push(props.id);
             props.serviceChecked(checkArr);
             check = await props.addServices({ id:props.id, serviceId: props.service_id, qty: count });
+            if(check){
+                setTimeout(function() { 
+                    props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: check.servicesArr }, props.common.userData.access_token);
+                }, 10);
+            }
         }
         else{
             checkArr.splice(checkArr.indexOf(props.id), 1);
@@ -27,12 +32,11 @@ const ExtraServices = (props) => {
             var serviceArr = props.hotelDetail.services;
             delete serviceArr[props.id];
             check = await props.removeServices(serviceArr);
-        }
-        if(check){
             setTimeout(function() { 
-                props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: check.servicesArr });
+                props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: serviceArr }, props.common.userData.access_token);
             }, 10);
         }
+        
     }
 
     const countChange = (type) => {
@@ -40,10 +44,20 @@ const ExtraServices = (props) => {
         if(type === 'add' && checkArr[props.id].qty > 0){
             checkArr[props.id].qty++;
             props.addServices({id: props.id, serviceId: checkArr[props.id].service_id, qty: checkArr[props.id].qty});
+            setTimeout(function() { 
+                if(props.hotelDetail.serviceChecked.includes(props.id)){
+                    props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services }, props.common.userData.access_token);
+                }
+            }, 5);
         }
         if(type === 'minus' && checkArr[props.id].qty > 1){
             checkArr[props.id].qty--;
             props.addServices({id: props.id, serviceId: checkArr[props.id].service_id, qty: checkArr[props.id].qty});
+            setTimeout(function() { 
+                if(props.hotelDetail.serviceChecked.includes(props.id)){
+                    props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services }, props.common.userData.access_token);
+                }
+            }, 5);
         }
     }
 
@@ -75,7 +89,6 @@ const ExtraServices = (props) => {
                             <Icon name='info-outline' style={styles.infoIcon} fill='#626262' onPress={() => setVisible(!visible)} />
                         </Tooltip>
                     }
-                    
                 </View>
             </View>
             <View style={styles.quantityText}>

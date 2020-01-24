@@ -44,7 +44,7 @@ const HotelsDetail = (props) => {
     
     useEffect(() => {
         async function loadDatas(){
-            const response = await LoadHotelDetailsData(props.navigation.state.params.alias);
+            const response = await LoadHotelDetailsData(props.navigation.state.params.alias, props.common.userData.access_token);
             setData(response.data[0]);
             setLoading(false);
             setLoadPrices(true);
@@ -56,7 +56,7 @@ const HotelsDetail = (props) => {
 
     if(loadPrices === true){
         setLoadPrices(false);
-        props.LoadPrices({hotelId : data.nameBlock.id, roomId : data.roomsBlock[0].id, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms });
+        props.LoadPrices({hotelId : data.nameBlock.id, roomId : data.roomsBlock[0].id, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms }, props.common.userData.access_token);
     }
 
     if(props.hotelDetail.prices_services !== undefined && props.hotelDetail.prices_services !== null){

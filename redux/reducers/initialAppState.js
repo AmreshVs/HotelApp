@@ -1,5 +1,4 @@
 // Not Used
-import data from '../../components/home/recommendedRoomsData';
 const amenitiesLessData = [
     { url: 'http://pandadev.amreshrepos.ml/medias/facility/big/9/air-conditioning.png', name: 'Air Conditioning' },
     { url: 'http://pandadev.amreshrepos.ml/medias/facility/big/26/bath.png', name: 'Bathroom' },

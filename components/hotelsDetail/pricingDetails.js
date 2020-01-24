@@ -19,14 +19,14 @@ const PricingDetails = (props) => {
         }
         else{
             props.addCoupons({});
-            props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services});
+            props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services}, props.common.userData.access_token);
             setModal(false);
         }
     }
 
     const closeModal = (item, price) => {
         props.addCoupons({code: item, price: price});
-        props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services, coupon_code: item });
+        props.LoadPrices({hotelId : props.hotelDetail.hotelIds.hotelId, roomId : props.hotelDetail.hotelIds.roomId, dates: props.hotelDetail.dates, rooms: props.hotelDetail.rooms, service: props.hotelDetail.services, coupon_code: item }, props.common.userData.access_token);
         setModal(!modal);
     }
 
@@ -42,7 +42,7 @@ const PricingDetails = (props) => {
             </View>
             {props.data.data.services !== undefined && props.data.data.services.map((item) => {
                 servicesId++
-                return <ExtraServices key={item.service_id} id={servicesId} service_id={item.service_id} name={item.service_name} desc={''} quantity={quantitytypes.includes(item.service_type) ? false : true} price={'₹'+item.price} />
+                return <ExtraServices key={item.service_id} id={servicesId} service_id={item.service_id} name={item.service_name} desc={''} quantity={(item.service_type).search('qty') !== -1 ? true : false } price={'₹'+item.price} />
             })}
             <View style={styles.textContainer}>
                 <Text style={styles.total}>Total</Text>

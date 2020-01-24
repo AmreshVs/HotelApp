@@ -1,11 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { View, Platform, KeyboardAvoidingView, Animated } from 'react-native';
 import TimedSlideshow from 'react-native-timed-slideshow';
 import styles from './styles';
 import { Icon, Input, Button } from '@ui-kitten/components';
 import { withNavigation } from 'react-navigation';
+import UserLoginAuth from '../../redux/thunkActions/userLoginAuth';
+import { userLogin } from '../../redux/actions/commonActions';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = (props) => {
 
     const items = [
         {
@@ -20,7 +24,7 @@ const LoginScreen = ({ navigation }) => {
     ]
 
     const [value, setValue] = React.useState('8675529268');
-    const [otpValue, setOtpValue] = React.useState('12345');
+    const [otpValue, setOtpValue] = React.useState('1234');
     const [visible, setVisible] = React.useState(false);
     const [slideAnim] = React.useState(new Animated.Value(0));
     const [slideAnimOtp] = React.useState(new Animated.Value(500));
@@ -53,8 +57,13 @@ const LoginScreen = ({ navigation }) => {
         <Icon {...style} name='message-square-outline' />
     );
 
-    const loginWithOtp = () => {
-        navigation.navigate('Main');
+    const loginWithOtp = async () => {
+        const userData = await UserLoginAuth({mobile_number: value, otp: otpValue});
+        props.userLogin(userData);
+        const token = userData.access_token;
+        if(token !== undefined && token !== ''){
+            props.navigation.navigate('Main');
+        }
     }
 
     return (
@@ -116,4 +125,12 @@ const LoginScreen = ({ navigation }) => {
     );
 };
 
-export default withNavigation(LoginScreen);
+const mapStateToProps = (state) => {
+    return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({userLogin:userLogin}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(LoginScreen));

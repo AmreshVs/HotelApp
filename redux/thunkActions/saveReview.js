@@ -1,14 +1,14 @@
 import { saveReview } from '../actions/hotelDetailActions';
 import axios from 'axios';
 
-const saveReviewRating = (data) => {
+const saveReviewRating = (data, token) => {
     return dispatch => {
         dispatch(saveReview({error: false, message: ''}));
         axios({
             method: 'POST',
             url: 'https://pandaapi.amreshrepos.ml/api/v1/add-rating',
             headers:{
-                'Authorization': 'Bearer testdummy'
+                'Authorization': token
             },
             data: data,
             

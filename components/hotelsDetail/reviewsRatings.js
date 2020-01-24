@@ -162,10 +162,11 @@ const styles = StyleSheet.create({
         color: '#3366FF'
     },
     reviewsMore: {
-        paddingLeft: 20
+        paddingLeft: 20,
+        marginBottom: 65,
     },
     textContainer1:{
         flexDirection: 'row',
         justifyContent: 'space-between'
-    }
+    },
 })

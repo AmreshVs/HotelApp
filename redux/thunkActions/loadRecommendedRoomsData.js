@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const LoadRecommendedRoomsData = async () => {
+const LoadRecommendedRoomsData = async (token) => {
     return await axios({
         method: 'GET',
         url: 'https://pandaapi.amreshrepos.ml/api/v1/view-recommended',
         headers:{
             'Accept-Language' : 'en',
-            'Authorization': 'Bearer testdummy'
+            'Authorization': token
         }
     })
     .then(function (response) {
